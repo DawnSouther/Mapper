@@ -43,7 +43,7 @@ public class TkMapperServiceTest {
     @Test
     public void byId() {
 
-        User user = userMapper.selectByPrimaryKey(1);
+        User user = userMapper.selectById(1);
         log.info(user == null ? null : user.toString());
     }
 
@@ -76,7 +76,7 @@ public class TkMapperServiceTest {
         List<User> users = userMapper.findByName("张麻子");
         if (!users.isEmpty()) {
             User user = users.get(0);
-            userMapper.deleteByPrimaryKey(user.getId());
+            userMapper.deleteById(user.getId());
             user.setId(null);
             userMapper.insert(user);
         }

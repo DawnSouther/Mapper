@@ -19,5 +19,5 @@ public interface CountryCacheRefMapper extends Mapper<Country> {
      * @param id
      * @return
      */
-    Country selectById(Integer id);
+    Country selectById2(Integer id);
 }

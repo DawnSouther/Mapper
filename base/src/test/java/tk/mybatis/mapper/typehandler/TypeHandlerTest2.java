@@ -50,7 +50,7 @@ public class TypeHandlerTest2 extends BaseTest {
             Assert.assertEquals("Hebei/Handan", users.get(1).getAddress().toString());
             Assert.assertEquals(StateEnum.disabled, users.get(1).getState());
 
-            User2 user = userMapper.selectByPrimaryKey(1);
+            User2 user = userMapper.selectById(1);
             Assert.assertEquals("abel533", user.getName());
             Assert.assertEquals("Hebei", user.getAddress().getProvince());
             Assert.assertEquals("Shijiazhuang", user.getAddress().getCity());
@@ -77,7 +77,7 @@ public class TypeHandlerTest2 extends BaseTest {
 
             Assert.assertEquals(1, userMapper.insert(user));
 
-            user = userMapper.selectByPrimaryKey(3);
+            user = userMapper.selectById(3);
             Assert.assertEquals("liuzh", user.getName());
             Assert.assertEquals("Hebei", user.getAddress().getProvince());
             Assert.assertEquals("Qinhuangdao", user.getAddress().getCity());
@@ -92,7 +92,7 @@ public class TypeHandlerTest2 extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             User2Mapper userMapper = sqlSession.getMapper(User2Mapper.class);
-            User2 user = userMapper.selectByPrimaryKey(1);
+            User2 user = userMapper.selectById(1);
             Assert.assertEquals("abel533", user.getName());
             Assert.assertEquals("Hebei", user.getAddress().getProvince());
             Assert.assertEquals("Shijiazhuang", user.getAddress().getCity());
@@ -100,9 +100,9 @@ public class TypeHandlerTest2 extends BaseTest {
 
             user.setState(StateEnum.disabled);
             user.getAddress().setCity("Handan");
-            Assert.assertEquals(1, userMapper.updateByPrimaryKey(user));
+            Assert.assertEquals(1, userMapper.updateById(user));
 
-            user = userMapper.selectByPrimaryKey(1);
+            user = userMapper.selectById(1);
             Assert.assertEquals("abel533", user.getName());
             Assert.assertEquals("Hebei", user.getAddress().getProvince());
             Assert.assertEquals("Handan", user.getAddress().getCity());
@@ -117,7 +117,7 @@ public class TypeHandlerTest2 extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             User2Mapper userMapper = sqlSession.getMapper(User2Mapper.class);
-            Assert.assertEquals(1, userMapper.deleteByPrimaryKey(1));
+            Assert.assertEquals(1, userMapper.deleteById(1));
 
             User2 user = new User2();
             Address address = new Address();

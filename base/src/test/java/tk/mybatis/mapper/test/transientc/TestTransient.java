@@ -60,7 +60,7 @@ public class TestTransient {
             //屏蔽的数据是null
             Assert.assertNull(list.get(0).getCountrycode());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+            Assert.assertEquals(1, mapper.deleteById(10086));
         } finally {
             sqlSession.close();
         }
@@ -78,9 +78,9 @@ public class TestTransient {
             country.setId(174);
             country.setCountryname("美国");
             country.setCountrycode("US");
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(country));
+            Assert.assertEquals(1, mapper.updateById(country));
 
-            country = mapper.selectByPrimaryKey(174);
+            country = mapper.selectById(174);
             Assert.assertNotNull(country);
             Assert.assertEquals(174, (int) country.getId());
             Assert.assertEquals("美国", country.getCountryname());

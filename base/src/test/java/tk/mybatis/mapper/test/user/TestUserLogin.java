@@ -63,7 +63,7 @@ public class TestUserLogin {
             Assert.assertNotNull(userLogin.getLogid());
             Assert.assertTrue(userLogin.getLogid() > 10);
             //这里测了实体类入参的删除
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(userLogin));
+            Assert.assertEquals(1, mapper.deleteById(userLogin));
         } finally {
             sqlSession.close();
         }
@@ -83,9 +83,9 @@ public class TestUserLogin {
             Map<String, Object> key = new HashMap<String, Object>();
             key.put("logid", 1);
             key.put("username", "test1");
-            UserLogin userLogin = mapper.selectByPrimaryKey(key);
+            UserLogin userLogin = mapper.selectById(key);
             //根据主键删除
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(key));
+            Assert.assertEquals(1, mapper.deleteById(key));
 
             //查询总数
             Assert.assertEquals(9, mapper.selectCount(new UserLogin()));
@@ -125,14 +125,14 @@ public class TestUserLogin {
             Map<String, Object> key = new HashMap<String, Object>();
             key.put("logid", 2);
             key.put("username", "test1");
-            UserLogin userLogin = mapper.selectByPrimaryKey(key);
+            UserLogin userLogin = mapper.selectById(key);
             Assert.assertNotNull(userLogin);
             userLogin.setLoginip("1.1.1.1");
             userLogin.setLogindate(null);
             //不会更新username
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(userLogin));
+            Assert.assertEquals(1, mapper.updateById(userLogin));
 
-            userLogin = mapper.selectByPrimaryKey(userLogin);
+            userLogin = mapper.selectById(userLogin);
             Assert.assertNull(userLogin.getLogindate());
             Assert.assertEquals("1.1.1.1", userLogin.getLoginip());
         } finally {
@@ -153,14 +153,14 @@ public class TestUserLogin {
             key.put("logid", 1);
             key.put("username", "test1");
 
-            UserLogin userLogin = mapper.selectByPrimaryKey(key);
+            UserLogin userLogin = mapper.selectById(key);
             Assert.assertNotNull(userLogin);
             userLogin.setLogindate(null);
             userLogin.setLoginip("1.1.1.1");
             //不会更新username
-            Assert.assertEquals(1, mapper.updateByPrimaryKeySelective(userLogin));
+            Assert.assertEquals(1, mapper.updateByIdSelective(userLogin));
 
-            userLogin = mapper.selectByPrimaryKey(key);
+            userLogin = mapper.selectById(key);
             Assert.assertNotNull(userLogin.getLogindate());
             Assert.assertEquals("1.1.1.1", userLogin.getLoginip());
         } finally {

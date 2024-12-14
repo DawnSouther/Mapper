@@ -12,15 +12,15 @@ import java.util.List;
  * @date 2018-06-26
  */
 @RegisterMapper
-public interface UpdateByPrimaryKeySelectiveForceMapper<T> {
+public interface UpdatePickByIdMapper<T> {
 
     /**
-     * 根据主键更新属性不为null的值, 指定的属性(null值)会被强制更新
+     * 根据主键更新传入字段的值
      *
      * @param record
      * @param forceUpdateProperties
      * @return
      */
-    @UpdateProvider(type = UpdateByPrimaryKeySelectiveForceProvider.class, method = "dynamicSQL")
-    int updateByPrimaryKeySelectiveForce(@Param("record") T record, @Param("forceUpdateProperties") List<String> forceUpdateProperties);
+    @UpdateProvider(type = UpdatePickByIdProvider.class, method = "dynamicSQL")
+    int updatePickById(@Param("record") T record, @Param("forceUpdateProperties") List<String> forceUpdateProperties);
 }

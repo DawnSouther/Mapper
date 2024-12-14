@@ -25,7 +25,7 @@
 package tk.mybatis.mapper.common.base;
 
 import tk.mybatis.mapper.annotation.RegisterMapper;
-import tk.mybatis.mapper.common.base.delete.DeleteByPrimaryKeyMapper;
+import tk.mybatis.mapper.common.base.delete.DeleteByIdMapper;
 import tk.mybatis.mapper.common.base.delete.DeleteMapper;
 
 /**
@@ -37,6 +37,6 @@ import tk.mybatis.mapper.common.base.delete.DeleteMapper;
 @RegisterMapper
 public interface BaseDeleteMapper<T> extends
         DeleteMapper<T>,
-        DeleteByPrimaryKeyMapper<T> {
+        DeleteByIdMapper<T> {
 
 }

@@ -15,20 +15,20 @@ import java.util.List;
 public class TestLogicDelete {
 
     @Test
-    public void testLogicDeleteByPrimaryKey() {
+    public void testLogicdeleteById() {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
 
         try {
             TbUserMapper mapper = sqlSession.getMapper(TbUserMapper.class);
             TbUserLogicDeleteMapper logicDeleteMapper = sqlSession.getMapper(TbUserLogicDeleteMapper.class);
 
-            logicDeleteMapper.deleteByPrimaryKey(3);
-            Assert.assertFalse(logicDeleteMapper.existsWithPrimaryKey(3));
+            logicDeleteMapper.deleteById(3);
+            Assert.assertFalse(logicDeleteMapper.existsWithId(3));
 
-            Assert.assertTrue(mapper.existsWithPrimaryKey(3));
+            Assert.assertTrue(mapper.existsWithId(3));
 
             // 删除已经被逻辑删除的数据，受影响行数为0
-            Assert.assertEquals(0, logicDeleteMapper.deleteByPrimaryKey(9));
+            Assert.assertEquals(0, logicDeleteMapper.deleteById(9));
 
         } finally {
             sqlSession.rollback();
@@ -49,11 +49,11 @@ public class TestLogicDelete {
             // 有2条username为test的数据，其中1条已经被标记为逻辑删除
             TbUserLogicDelete tbUserLogicDelete = new TbUserLogicDelete();
             tbUserLogicDelete.setUsername("test");
-            Assert.assertTrue(logicDeleteMapper.existsWithPrimaryKey(8));
+            Assert.assertTrue(logicDeleteMapper.existsWithId(8));
 
             // 逻辑删除只会删除1条
             Assert.assertEquals(1, logicDeleteMapper.delete(tbUserLogicDelete));
-            Assert.assertFalse(logicDeleteMapper.existsWithPrimaryKey(8));
+            Assert.assertFalse(logicDeleteMapper.existsWithId(8));
 
             // 未删除的一共有4条
             Assert.assertEquals(4, logicDeleteMapper.selectAll().size());
@@ -86,9 +86,9 @@ public class TestLogicDelete {
             example.createCriteria().andEqualTo("id", 1);
 
             logicDeleteMapper.deleteByExample(example);
-            Assert.assertFalse(logicDeleteMapper.existsWithPrimaryKey(1));
+            Assert.assertFalse(logicDeleteMapper.existsWithId(1));
 
-            Assert.assertTrue(mapper.existsWithPrimaryKey(1));
+            Assert.assertTrue(mapper.existsWithId(1));
 
         } finally {
             sqlSession.rollback();
@@ -98,14 +98,14 @@ public class TestLogicDelete {
 
     @Test
     // 根据主键查询，逻辑删除注解查询时会使用未删除的查询条件
-    public void testSelectByPrimaryKey() {
+    public void testselectById() {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             TbUserLogicDeleteMapper logicDeleteMapper = sqlSession.getMapper(TbUserLogicDeleteMapper.class);
-            Assert.assertNull(logicDeleteMapper.selectByPrimaryKey(9));
+            Assert.assertNull(logicDeleteMapper.selectById(9));
 
             TbUserMapper mapper = sqlSession.getMapper(TbUserMapper.class);
-            Assert.assertEquals(0, (int) mapper.selectByPrimaryKey(9).getIsValid());
+            Assert.assertEquals(0, (int) mapper.selectById(9).getIsValid());
         } finally {
             sqlSession.rollback();
             sqlSession.close();
@@ -113,14 +113,14 @@ public class TestLogicDelete {
     }
 
     @Test
-    public void testExistsWithPrimaryKey() {
+    public void testexistsWithId() {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             TbUserLogicDeleteMapper logicDeleteMapper = sqlSession.getMapper(TbUserLogicDeleteMapper.class);
-            Assert.assertFalse(logicDeleteMapper.existsWithPrimaryKey(9));
+            Assert.assertFalse(logicDeleteMapper.existsWithId(9));
 
             TbUserMapper mapper = sqlSession.getMapper(TbUserMapper.class);
-            Assert.assertTrue(mapper.existsWithPrimaryKey(9));
+            Assert.assertTrue(mapper.existsWithId(9));
         } finally {
             sqlSession.rollback();
             sqlSession.close();
@@ -264,10 +264,10 @@ public class TestLogicDelete {
         try {
             TbUserLogicDeleteMapper logicDeleteMapper = sqlSession.getMapper(TbUserLogicDeleteMapper.class);
 
-            TbUserLogicDelete tbUserLogicDelete = logicDeleteMapper.selectByPrimaryKey(1);
+            TbUserLogicDelete tbUserLogicDelete = logicDeleteMapper.selectById(1);
 
             tbUserLogicDelete.setPassword(null);
-            logicDeleteMapper.updateByPrimaryKey(tbUserLogicDelete);
+            logicDeleteMapper.updateById(tbUserLogicDelete);
 
             Assert.assertNull(logicDeleteMapper.select(tbUserLogicDelete).get(0).getPassword());
 
@@ -283,10 +283,10 @@ public class TestLogicDelete {
         try {
             TbUserLogicDeleteMapper logicDeleteMapper = sqlSession.getMapper(TbUserLogicDeleteMapper.class);
 
-            TbUserLogicDelete tbUserLogicDelete = logicDeleteMapper.selectByPrimaryKey(1);
+            TbUserLogicDelete tbUserLogicDelete = logicDeleteMapper.selectById(1);
 
             tbUserLogicDelete.setPassword(null);
-            logicDeleteMapper.updateByPrimaryKeySelective(tbUserLogicDelete);
+            logicDeleteMapper.updateByIdSelective(tbUserLogicDelete);
 
             Assert.assertEquals("12345678", logicDeleteMapper.select(tbUserLogicDelete).get(0).getPassword());
 

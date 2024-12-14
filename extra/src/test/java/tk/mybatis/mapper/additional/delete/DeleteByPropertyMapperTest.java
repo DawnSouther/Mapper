@@ -39,14 +39,14 @@ public class DeleteByPropertyMapperTest extends BaseTest {
         try {
             CourseMapper mapper = sqlSession.getMapper(CourseMapper.class);
 
-            Course beforeDelete = mapper.selectByPrimaryKey(2);
+            Course beforeDelete = mapper.selectById(2);
             Assert.assertNotNull(beforeDelete);
             Assert.assertEquals("JavaStarter2", beforeDelete.getName());
 
             int deletedCount = mapper.deleteByProperty(Course::getName, "JavaStarter2");
             Assert.assertEquals(1, deletedCount);
 
-            Course afterDelete = mapper.selectByPrimaryKey(2);
+            Course afterDelete = mapper.selectById(2);
             Assert.assertNull(afterDelete);
         } finally {
             sqlSession.close();

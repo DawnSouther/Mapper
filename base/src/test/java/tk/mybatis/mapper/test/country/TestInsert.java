@@ -90,7 +90,7 @@ public class TestInsert {
 
             Assert.assertEquals(2, list.size());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+            Assert.assertEquals(1, mapper.deleteById(10086));
         } finally {
             sqlSession.close();
         }
@@ -117,7 +117,7 @@ public class TestInsert {
             Assert.assertEquals(1, list.size());
             Assert.assertNull(list.get(0).getCountrycode());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+            Assert.assertEquals(1, mapper.deleteById(10086));
         } finally {
             sqlSession.close();
         }

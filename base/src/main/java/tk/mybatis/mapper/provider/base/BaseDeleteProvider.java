@@ -75,7 +75,7 @@ public class BaseDeleteProvider extends MapperTemplate {
      *
      * @param ms
      */
-    public String deleteByPrimaryKey(MappedStatement ms) {
+    public String deleteById(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);
         StringBuilder sql = new StringBuilder();
         if (SqlHelper.hasLogicDeleteColumn(entityClass)) {

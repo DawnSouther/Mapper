@@ -90,7 +90,7 @@ public class BaseSelectProvider extends MapperTemplate {
      *
      * @param ms
      */
-    public String selectByPrimaryKey(MappedStatement ms) {
+    public String selectById(MappedStatement ms) {
         final Class<?> entityClass = getEntityClass(ms);
         //将返回值修改为实体类型
         setResultType(ms, entityClass);
@@ -122,7 +122,7 @@ public class BaseSelectProvider extends MapperTemplate {
      * @param ms
      * @return
      */
-    public String existsWithPrimaryKey(MappedStatement ms) {
+    public String existsWithId(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.selectCountExists(entityClass));

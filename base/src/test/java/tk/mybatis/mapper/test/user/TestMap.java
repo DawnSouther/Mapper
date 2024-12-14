@@ -58,7 +58,7 @@ public class TestMap {
             Assert.assertNotNull(userInfoMap.getId());
             Assert.assertEquals(6, (int) userInfoMap.getId());
 
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(userInfoMap));
+            Assert.assertEquals(1, mapper.deleteById(userInfoMap));
         } finally {
             sqlSession.close();
         }
@@ -75,10 +75,10 @@ public class TestMap {
             //查询总数
             Assert.assertEquals(5, mapper.selectCount(new UserInfoMap()));
             //查询100
-            UserInfoMap userInfoMap = mapper.selectByPrimaryKey(1);
+            UserInfoMap userInfoMap = mapper.selectById(1);
 
             //根据主键删除
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(1));
+            Assert.assertEquals(1, mapper.deleteById(1));
 
             //查询总数
             Assert.assertEquals(4, mapper.selectCount(new UserInfoMap()));
@@ -115,14 +115,14 @@ public class TestMap {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             UserInfoMapMapper mapper = sqlSession.getMapper(UserInfoMapMapper.class);
-            UserInfoMap userInfoMap = mapper.selectByPrimaryKey(2);
+            UserInfoMap userInfoMap = mapper.selectById(2);
             Assert.assertNotNull(userInfoMap);
             userInfoMap.setUserType(null);
             userInfoMap.setRealName("liuzh");
             //不会更新user_type
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(userInfoMap));
+            Assert.assertEquals(1, mapper.updateById(userInfoMap));
 
-            userInfoMap = mapper.selectByPrimaryKey(userInfoMap);
+            userInfoMap = mapper.selectById(userInfoMap);
             Assert.assertNull(userInfoMap.getUserType());
             Assert.assertEquals("liuzh", userInfoMap.getRealName());
         } finally {
@@ -138,14 +138,14 @@ public class TestMap {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             UserInfoMapMapper mapper = sqlSession.getMapper(UserInfoMapMapper.class);
-            UserInfoMap userInfoMap = mapper.selectByPrimaryKey(1);
+            UserInfoMap userInfoMap = mapper.selectById(1);
             Assert.assertNotNull(userInfoMap);
             userInfoMap.setUserType(null);
             userInfoMap.setRealName("liuzh");
             //不会更新user_type
-            Assert.assertEquals(1, mapper.updateByPrimaryKeySelective(userInfoMap));
+            Assert.assertEquals(1, mapper.updateByIdSelective(userInfoMap));
 
-            userInfoMap = mapper.selectByPrimaryKey(1);
+            userInfoMap = mapper.selectById(1);
             Assert.assertEquals("1", userInfoMap.getUserType());
             Assert.assertEquals("liuzh", userInfoMap.getRealName());
         } finally {

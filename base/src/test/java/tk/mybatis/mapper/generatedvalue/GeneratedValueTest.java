@@ -45,7 +45,7 @@ public class GeneratedValueTest extends BaseTest {
             Assert.assertEquals(1, mapper.insert(user));
             Assert.assertNotNull(user.getId());
 
-            user = mapper.selectByPrimaryKey(user.getId());
+            user = mapper.selectById(user.getId());
             Assert.assertEquals("liuzh", user.getName());
         } finally {
             sqlSession.close();
@@ -63,7 +63,7 @@ public class GeneratedValueTest extends BaseTest {
             Assert.assertEquals(1, mapper.insert(user));
             Assert.assertNotNull(user.getId());
 
-            user = mapper.selectByPrimaryKey(user.getId());
+            user = mapper.selectById(user.getId());
             Assert.assertEquals("liuzh", user.getName());
         } finally {
             sqlSession.close();
@@ -81,7 +81,7 @@ public class GeneratedValueTest extends BaseTest {
             Assert.assertEquals(1, mapper.insert(user));
             Assert.assertNotNull(user.getId());
 
-            user = mapper.selectByPrimaryKey(user.getId());
+            user = mapper.selectById(user.getId());
             Assert.assertEquals("liuzh", user.getName());
         } finally {
             sqlSession.close();

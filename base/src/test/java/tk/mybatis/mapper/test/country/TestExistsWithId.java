@@ -36,22 +36,22 @@ import tk.mybatis.mapper.model.Country;
  *
  * @author liuzh
  */
-public class TestExistsWithPrimaryKey {
+public class TestExistsWithId {
 
     /**
      * 根据PK进行查询
      */
     @Test
-    public void testDynamicExistsWithPrimaryKey() {
+    public void testDynamicExistsWithId() {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Country country = new Country();
             country.setId(35);
-            Assert.assertEquals(true, mapper.existsWithPrimaryKey(country));
+            Assert.assertEquals(true, mapper.existsWithId(country));
 
             country.setId(0);
-            Assert.assertEquals(false, mapper.existsWithPrimaryKey(country));
+            Assert.assertEquals(false, mapper.existsWithId(country));
         } finally {
             sqlSession.close();
         }

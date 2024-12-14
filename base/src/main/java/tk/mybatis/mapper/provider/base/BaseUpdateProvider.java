@@ -45,7 +45,7 @@ public class BaseUpdateProvider extends MapperTemplate {
      *
      * @param ms
      */
-    public String updateByPrimaryKey(MappedStatement ms) {
+    public String updateById(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));
@@ -60,7 +60,7 @@ public class BaseUpdateProvider extends MapperTemplate {
      * @param ms
      * @return
      */
-    public String updateByPrimaryKeySelective(MappedStatement ms) {
+    public String updateByIdSelective(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));

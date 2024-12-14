@@ -36,7 +36,7 @@ public class KeySqlTest extends BaseTest {
             Assert.assertEquals(1, mapper.insert(user));
             Assert.assertNotNull(user.getId());
 
-            user = mapper.selectByPrimaryKey(user.getId());
+            user = mapper.selectById(user.getId());
             Assert.assertEquals("liuzh", user.getName());
         } finally {
             sqlSession.close();
@@ -54,7 +54,7 @@ public class KeySqlTest extends BaseTest {
             Assert.assertEquals(1, mapper.insert(user));
             Assert.assertNotNull(user.getId());
 
-            user = mapper.selectByPrimaryKey(user.getId());
+            user = mapper.selectById(user.getId());
             Assert.assertEquals("liuzh", user.getName());
         } finally {
             sqlSession.close();
@@ -72,7 +72,7 @@ public class KeySqlTest extends BaseTest {
             Assert.assertEquals(1, mapper.insert(user));
             Assert.assertNotNull(user.getId());
 
-            user = mapper.selectByPrimaryKey(user.getId());
+            user = mapper.selectById(user.getId());
             Assert.assertEquals("liuzh", user.getName());
         } finally {
             sqlSession.close();
@@ -90,7 +90,7 @@ public class KeySqlTest extends BaseTest {
             Assert.assertEquals(1, mapper.insert(user));
             Assert.assertEquals(new Integer(12345), user.getId());
 
-            user = mapper.selectByPrimaryKey(12345);
+            user = mapper.selectById(12345);
             Assert.assertEquals("liuzh", user.getName());
         } finally {
             sqlSession.close();

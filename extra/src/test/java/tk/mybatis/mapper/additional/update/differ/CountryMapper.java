@@ -7,5 +7,5 @@ import tk.mybatis.mapper.additional.Country;
 public interface CountryMapper extends UpdateByDifferMapper<Country> {
 
     @Select("select * from country where id = #{id}")
-    Country selectByPrimaryKey(Long id);
+    Country selectById(Long id);
 }

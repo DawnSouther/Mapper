@@ -55,7 +55,7 @@ public class TestInsertSelective {
             country2 = mapper.select(country2).get(0);
             Assert.assertNotNull(country2);
 
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(country2.getId()));
+            Assert.assertEquals(1, mapper.deleteById(country2.getId()));
         } finally {
             sqlSession.close();
         }
@@ -96,7 +96,7 @@ public class TestInsertSelective {
 
             Assert.assertEquals(1, list.size());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+            Assert.assertEquals(1, mapper.deleteById(10086));
         } finally {
             sqlSession.close();
         }
@@ -125,7 +125,7 @@ public class TestInsertSelective {
             Assert.assertNotNull(list.get(0).getCountrycode());
             Assert.assertEquals("HH", list.get(0).getCountrycode());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+            Assert.assertEquals(1, mapper.deleteById(10086));
         } finally {
             sqlSession.close();
         }

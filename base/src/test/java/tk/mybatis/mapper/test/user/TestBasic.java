@@ -71,7 +71,7 @@ public class TestBasic {
             Assert.assertNotNull(userInfo.getId());
             Assert.assertTrue((int) userInfo.getId() >= 6);
 
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(userInfo));
+            Assert.assertEquals(1, mapper.deleteById(userInfo));
         } finally {
             sqlSession.rollback();
             sqlSession.close();
@@ -89,11 +89,11 @@ public class TestBasic {
             //查询总数
             Assert.assertEquals(5, mapper.selectCount(new UserInfo()));
             //查询100
-            UserInfo userInfo = mapper.selectByPrimaryKey(1);
+            UserInfo userInfo = mapper.selectById(1);
 
 
             //根据主键删除
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(1));
+            Assert.assertEquals(1, mapper.deleteById(1));
 
 
             //查询总数
@@ -132,14 +132,14 @@ public class TestBasic {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             UserInfoMapper mapper = sqlSession.getMapper(UserInfoMapper.class);
-            UserInfo userInfo = mapper.selectByPrimaryKey(2);
+            UserInfo userInfo = mapper.selectById(2);
             Assert.assertNotNull(userInfo);
             userInfo.setUsertype(null);
             userInfo.setEmail("abel533@gmail.com");
             //不会更新username
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(userInfo));
+            Assert.assertEquals(1, mapper.updateById(userInfo));
 
-            userInfo = mapper.selectByPrimaryKey(userInfo);
+            userInfo = mapper.selectById(userInfo);
             Assert.assertNull(userInfo.getUsertype());
             Assert.assertEquals("abel533@gmail.com", userInfo.getEmail());
         } finally {
@@ -156,14 +156,14 @@ public class TestBasic {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             UserInfoMapper mapper = sqlSession.getMapper(UserInfoMapper.class);
-            UserInfo userInfo = mapper.selectByPrimaryKey(1);
+            UserInfo userInfo = mapper.selectById(1);
             Assert.assertNotNull(userInfo);
             userInfo.setUsertype(null);
             userInfo.setEmail("abel533@gmail.com");
             //不会更新username
-            Assert.assertEquals(1, mapper.updateByPrimaryKeySelective(userInfo));
+            Assert.assertEquals(1, mapper.updateByIdSelective(userInfo));
 
-            userInfo = mapper.selectByPrimaryKey(1);
+            userInfo = mapper.selectById(1);
             Assert.assertEquals("1", userInfo.getUsertype());
             Assert.assertEquals("abel533@gmail.com", userInfo.getEmail());
         } finally {

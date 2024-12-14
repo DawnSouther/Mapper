@@ -41,16 +41,16 @@ import java.util.Set;
  * @Description: 通用Mapper接口, 更新, 强制，实现
  * @date 2018-06-26
  */
-public class UpdateByPrimaryKeySelectiveForceProvider extends MapperTemplate {
+public class UpdatePickByIdProvider extends MapperTemplate {
 
     public static final String FORCE_UPDATE_PROPERTIES = "forceUpdateProperties";
 
-    public UpdateByPrimaryKeySelectiveForceProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
+    public UpdatePickByIdProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
         super(mapperClass, mapperHelper);
     }
 
 
-    public String updateByPrimaryKeySelectiveForce(MappedStatement ms) {
+    public String updatePickById(MappedStatement ms) {
         Class entityClass = getEntityClass(ms);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass), "record"));
@@ -123,21 +123,6 @@ public class UpdateByPrimaryKeySelectiveForceProvider extends MapperTemplate {
     public String getIfNotNull(String entityName, EntityColumn column, String contents, boolean empty) {
         StringBuilder sql = new StringBuilder();
         sql.append("<choose>");
-        sql.append("<when test=\"");
-        if (StringUtil.isNotEmpty(entityName)) {
-            sql.append(entityName).append(".");
-        }
-        sql.append(column.getProperty()).append(" != null");
-        if (empty && column.getJavaType().equals(String.class)) {
-            sql.append(" and ");
-            if (StringUtil.isNotEmpty(entityName)) {
-                sql.append(entityName).append(".");
-            }
-            sql.append(column.getProperty()).append(" != '' ");
-        }
-        sql.append("\">");
-        sql.append(contents);
-        sql.append("</when>");
 
         //指定的字段会被强制更新
         sql.append("<when test=\"");

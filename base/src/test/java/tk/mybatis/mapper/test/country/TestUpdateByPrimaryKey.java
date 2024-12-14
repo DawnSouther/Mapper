@@ -48,7 +48,7 @@ public class TestUpdateByPrimaryKey {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Assert.assertEquals(0, mapper.updateByPrimaryKey(new Country()));
+            Assert.assertEquals(0, mapper.updateById(new Country()));
         } finally {
             sqlSession.close();
         }
@@ -62,7 +62,7 @@ public class TestUpdateByPrimaryKey {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.updateByPrimaryKey(null);
+            mapper.updateById(null);
         } finally {
             sqlSession.close();
         }
@@ -80,9 +80,9 @@ public class TestUpdateByPrimaryKey {
             country.setId(174);
             country.setCountryname(null);
             country.setCountryname("美国");
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(country));
+            Assert.assertEquals(1, mapper.updateById(country));
 
-            country = mapper.selectByPrimaryKey(174);
+            country = mapper.selectById(174);
             Assert.assertNotNull(country);
             Assert.assertEquals(174, (int) country.getId());
             Assert.assertEquals("美国", country.getCountryname());
@@ -101,13 +101,13 @@ public class TestUpdateByPrimaryKey {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
-            Assert.assertEquals(0, mapper.updateByPrimaryKey(new Key()));
+            Assert.assertEquals(0, mapper.updateById(new Key()));
 
             Key key = new Key();
             key.setId(174);
             key.setCountrycode("CN");
             key.setCountrytel("+86");
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(key));
+            Assert.assertEquals(1, mapper.updateById(key));
         } finally {
             sqlSession.close();
         }
@@ -121,27 +121,27 @@ public class TestUpdateByPrimaryKey {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryVersionMapper mapper = sqlSession.getMapper(CountryVersionMapper.class);
-            CountryVersion country = mapper.selectByPrimaryKey(174);
+            CountryVersion country = mapper.selectById(174);
             Assert.assertNotNull(country);
             Assert.assertEquals(new Integer(1), country.getVersion());
             country.setCountryname("美国2");
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(country));
+            Assert.assertEquals(1, mapper.updateById(country));
 
-            country = mapper.selectByPrimaryKey(174);
+            country = mapper.selectById(174);
             Assert.assertNotNull(country);
             Assert.assertEquals(new Integer(2), country.getVersion());
 
             country.setCountryname("美国3");
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(country));
+            Assert.assertEquals(1, mapper.updateById(country));
 
-            country = mapper.selectByPrimaryKey(174);
+            country = mapper.selectById(174);
             Assert.assertNotNull(country);
             Assert.assertEquals(new Integer(3), country.getVersion());
 
             country.setCountryname("美国4");
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(country));
+            Assert.assertEquals(1, mapper.updateById(country));
 
-            country = mapper.selectByPrimaryKey(174);
+            country = mapper.selectById(174);
             Assert.assertNotNull(country);
             Assert.assertEquals(new Integer(4), country.getVersion());
         } finally {

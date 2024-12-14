@@ -67,13 +67,13 @@ public class UpdateByPrimaryKeySelectiveForceTest extends BaseTest {
     public void testUpdateByPrimaryKeySelectiveForceByNull() {
         SqlSession sqlSession = getSqlSession();
         try {
-            CountryIntMapper mapper = sqlSession.getMapper(CountryIntMapper.class);
+            CountryIntMapperPick mapper = sqlSession.getMapper(CountryIntMapperPick.class);
             CountryInt country = new CountryInt();
             country.setId(174);
             country.setCountryname("英国");
-            mapper.updateByPrimaryKeySelectiveForce(country, null);
+            mapper.updatePickById(country, null);
 
-            country = mapper.selectByPrimaryKey(174);
+            country = mapper.selectById(174);
             Assert.assertNotNull(country.getCountrycode());
         } finally {
             sqlSession.close();
@@ -84,12 +84,12 @@ public class UpdateByPrimaryKeySelectiveForceTest extends BaseTest {
     public void testUpdateByPrimaryKeySelectiveForce() {
         SqlSession sqlSession = getSqlSession();
         try {
-            CountryIntMapper mapper = sqlSession.getMapper(CountryIntMapper.class);
+            CountryIntMapperPick mapper = sqlSession.getMapper(CountryIntMapperPick.class);
             CountryInt country = new CountryInt();
             country.setId(174);
-            mapper.updateByPrimaryKeySelectiveForce(country, Arrays.asList("countrycode", "countryname"));
+            mapper.updatePickById(country, Arrays.asList("countrycode", "countryname"));
 
-            country = mapper.selectByPrimaryKey(174);
+            country = mapper.selectById(174);
             Assert.assertNull(country.getCountrycode());
             Assert.assertNull(country.getCountryname());
         } finally {

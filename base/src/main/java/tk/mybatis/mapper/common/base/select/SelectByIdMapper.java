@@ -22,28 +22,34 @@
  * THE SOFTWARE.
  */
 
-package tk.mybatis.mapper.common.base.update;
+package tk.mybatis.mapper.common.base.select;
 
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.SelectProvider;
 import tk.mybatis.mapper.annotation.RegisterMapper;
-import tk.mybatis.mapper.provider.base.BaseUpdateProvider;
+import tk.mybatis.mapper.provider.base.BaseSelectProvider;
 
 /**
- * 通用Mapper接口,更新
+ * 通用Mapper接口,其他接口继承该接口即可
+ * 需要在Entity类中为主键字段加上@javax.persistence.Id注解,声明主键
+ * 否则无法确认实体类哪个属性是主键
+ * <p/>
+ * <p>这是一个例子，自己扩展时可以参考</p>
+ * <p/>
+ * <p>项目地址 : <a href="https://github.com/abel533/Mapper" target="_blank">https://github.com/abel533/Mapper</a></p>
  *
  * @param <T> 不能为空
  * @author liuzh
  */
 @RegisterMapper
-public interface UpdateByPrimaryKeySelectiveMapper<T> {
+public interface SelectByIdMapper<T> {
 
     /**
-     * 根据主键更新属性不为null的值
+     * 根据主键字段进行查询，方法参数必须包含完整的主键属性，查询条件使用等号
      *
-     * @param record
+     * @param key
      * @return
      */
-    @UpdateProvider(type = BaseUpdateProvider.class, method = "dynamicSQL")
-    int updateByPrimaryKeySelective(T record);
+    @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
+    T selectById(Object key);
 
 }

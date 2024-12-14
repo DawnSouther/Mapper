@@ -22,28 +22,28 @@
  * THE SOFTWARE.
  */
 
-package tk.mybatis.mapper.common.base.select;
+package tk.mybatis.mapper.common.base.update;
 
-import org.apache.ibatis.annotations.SelectProvider;
+import org.apache.ibatis.annotations.UpdateProvider;
 import tk.mybatis.mapper.annotation.RegisterMapper;
-import tk.mybatis.mapper.provider.base.BaseSelectProvider;
+import tk.mybatis.mapper.provider.base.BaseUpdateProvider;
 
 /**
- * 通用Mapper接口,查询
+ * 通用Mapper接口,更新
  *
  * @param <T> 不能为空
  * @author liuzh
  */
 @RegisterMapper
-public interface ExistsWithPrimaryKeyMapper<T> {
+public interface UpdateByIdSelectiveMapper<T> {
 
     /**
-     * 根据主键字段查询总数，方法参数必须包含完整的主键属性，查询条件使用等号
+     * 根据主键更新属性不为null的值
      *
-     * @param key
+     * @param record
      * @return
      */
-    @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
-    boolean existsWithPrimaryKey(Object key);
+    @UpdateProvider(type = BaseUpdateProvider.class, method = "dynamicSQL")
+    int updateByIdSelective(T record);
 
 }

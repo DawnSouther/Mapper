@@ -49,7 +49,7 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
             Assert.assertEquals(LockDictEnum.locked, users.get(1).getLock());
             Assert.assertEquals(StateDictEnum.disabled, users.get(1).getState());
 
-            User user = userMapper.selectByPrimaryKey(1);
+            User user = userMapper.selectById(1);
             Assert.assertEquals("abel533", user.getName());
             Assert.assertEquals(LockDictEnum.unlocked, users.get(0).getLock());
             Assert.assertEquals(StateDictEnum.enabled, user.getState());
@@ -72,7 +72,7 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
 
             Assert.assertEquals(1, userMapper.insert(user));
 
-            user = userMapper.selectByPrimaryKey(3);
+            user = userMapper.selectById(3);
             Assert.assertEquals("liuzh", user.getName());
             Assert.assertEquals(LockDictEnum.unlocked, user.getLock());
             Assert.assertEquals(StateDictEnum.enabled, user.getState());
@@ -86,16 +86,16 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            User user = userMapper.selectByPrimaryKey(1);
+            User user = userMapper.selectById(1);
             Assert.assertEquals("abel533", user.getName());
             Assert.assertEquals(LockDictEnum.unlocked, user.getLock());
             Assert.assertEquals(StateDictEnum.enabled, user.getState());
 
             user.setLock(LockDictEnum.locked);
             user.setState(StateDictEnum.disabled);
-            Assert.assertEquals(1, userMapper.updateByPrimaryKey(user));
+            Assert.assertEquals(1, userMapper.updateById(user));
 
-            user = userMapper.selectByPrimaryKey(1);
+            user = userMapper.selectById(1);
             Assert.assertEquals("abel533", user.getName());
             Assert.assertEquals(LockDictEnum.locked, user.getLock());
             Assert.assertEquals(StateDictEnum.disabled, user.getState());
@@ -109,7 +109,7 @@ public class DefaultEnumTypeHandlerTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
-            Assert.assertEquals(1, userMapper.deleteByPrimaryKey(1));
+            Assert.assertEquals(1, userMapper.deleteById(1));
 
             User user = new User();
             user.setState(StateDictEnum.enabled);

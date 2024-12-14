@@ -47,8 +47,7 @@ public class FalseMethodPlugin extends PluginAdapter {
 
     //下面所有return false的方法都不生成。这些都是基础的CRUD方法，使用通用Mapper实现
 
-    @Override
-    public boolean clientDeleteByPrimaryKeyMethodGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
+    public boolean clientDeleteByIdMethodGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
         return false;
     }
 
@@ -67,8 +66,7 @@ public class FalseMethodPlugin extends PluginAdapter {
         return false;
     }
 
-    @Override
-    public boolean clientSelectByPrimaryKeyMethodGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
+    public boolean clientSelectByIdMethodGenerated(Method method, Interface interfaze, IntrospectedTable introspectedTable) {
         return false;
     }
 
@@ -87,8 +85,7 @@ public class FalseMethodPlugin extends PluginAdapter {
         return false;
     }
 
-    @Override
-    public boolean sqlMapDeleteByPrimaryKeyElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+    public boolean sqlMapDeleteByIdElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
         return false;
     }
 
@@ -107,8 +104,7 @@ public class FalseMethodPlugin extends PluginAdapter {
         return false;
     }
 
-    @Override
-    public boolean sqlMapSelectByPrimaryKeyElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
+    public boolean sqlMapSelectByIdElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
         return false;
     }
 

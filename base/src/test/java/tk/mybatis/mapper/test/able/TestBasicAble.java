@@ -56,7 +56,7 @@ public class TestBasicAble {
 
             Assert.assertNotNull(userInfo.getId());
 
-            userInfo = mapper.selectByPrimaryKey(userInfo.getId());
+            userInfo = mapper.selectById(userInfo.getId());
             //email没有插入
             Assert.assertNull(userInfo.getEmail());
         } finally {
@@ -73,15 +73,15 @@ public class TestBasicAble {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             UserInfoAbleMapper mapper = sqlSession.getMapper(UserInfoAbleMapper.class);
-            UserInfoAble userInfo = mapper.selectByPrimaryKey(2);
+            UserInfoAble userInfo = mapper.selectById(2);
             Assert.assertNotNull(userInfo);
             userInfo.setUsertype(null);
             userInfo.setEmail("abel533@gmail.com");
             userInfo.setAddress("这个地址不会更新进去");//update=false
             //不会更新username
-            Assert.assertEquals(1, mapper.updateByPrimaryKey(userInfo));
+            Assert.assertEquals(1, mapper.updateById(userInfo));
 
-            userInfo = mapper.selectByPrimaryKey(userInfo);
+            userInfo = mapper.selectById(userInfo);
             Assert.assertNull(userInfo.getUsertype());
             Assert.assertNotEquals("这个地址不会更新进去", userInfo.getAddress());
             Assert.assertEquals("abel533@gmail.com", userInfo.getEmail());
@@ -99,15 +99,15 @@ public class TestBasicAble {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             UserInfoAbleMapper mapper = sqlSession.getMapper(UserInfoAbleMapper.class);
-            UserInfoAble userInfo = mapper.selectByPrimaryKey(1);
+            UserInfoAble userInfo = mapper.selectById(1);
             Assert.assertNotNull(userInfo);
             userInfo.setUsertype(null);
             userInfo.setPassword(null);
             userInfo.setAddress("这个地址不会更新进去");
             //不会更新username
-            Assert.assertEquals(1, mapper.updateByPrimaryKeySelective(userInfo));
+            Assert.assertEquals(1, mapper.updateByIdSelective(userInfo));
 
-            userInfo = mapper.selectByPrimaryKey(1);
+            userInfo = mapper.selectById(1);
             Assert.assertEquals("1", userInfo.getUsertype());
             Assert.assertEquals("12345678", userInfo.getPassword());
             Assert.assertNotEquals("这个地址不会更新进去", userInfo.getAddress());

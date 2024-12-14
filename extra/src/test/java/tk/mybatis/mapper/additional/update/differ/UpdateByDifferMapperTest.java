@@ -30,7 +30,7 @@ public class UpdateByDifferMapperTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Country old = mapper.selectByPrimaryKey(1L);
+            Country old = mapper.selectById(1L);
             //(1, 'Angola', 'AO', 1)
             Country newer = new Country();
             newer.setId(1L);
@@ -38,7 +38,7 @@ public class UpdateByDifferMapperTest extends BaseTest {
             newer.setCountrycode("AO");
             int count = mapper.updateByDiffer(old, newer);
             Assert.assertEquals(1, count);
-            old = mapper.selectByPrimaryKey(1L);
+            old = mapper.selectById(1L);
             Assert.assertEquals(1L, old.getId().longValue());
             Assert.assertEquals("Newer", old.getCountryname());
             Assert.assertEquals("AO", old.getCountrycode());

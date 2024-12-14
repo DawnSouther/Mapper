@@ -72,7 +72,7 @@ public class DateTimeTest extends BaseTest {
             timeModel.setTestDatetime(now);
             Assert.assertEquals(1, mapper.insert(timeModel));
 
-            timeModel = mapper.selectByPrimaryKey(3);
+            timeModel = mapper.selectById(3);
 
             //保存后数据库中不存在时间部分
             Assert.assertEquals(toDate(now), toDate(timeModel.getTestDate()));
@@ -122,7 +122,7 @@ public class DateTimeTest extends BaseTest {
             timeModel.setTestDatetime(now2);
             Assert.assertEquals(1, mapper.insert(timeModel));
 
-            timeModel = mapper.selectByPrimaryKey(3);
+            timeModel = mapper.selectById(3);
 
             //保存后数据库中不存在时间部分
             Assert.assertEquals(toDate(now), toDate(timeModel.getTestDate()));
@@ -177,7 +177,7 @@ public class DateTimeTest extends BaseTest {
              */
             Assert.assertEquals(1, mapper.insert(timeModel));
 
-            timeModel = mapper.selectByPrimaryKey(3);
+            timeModel = mapper.selectById(3);
 
             //保存后数据库中不存在时间部分
             Assert.assertEquals(toDate(now), toDate(timeModel.getTestDate()));

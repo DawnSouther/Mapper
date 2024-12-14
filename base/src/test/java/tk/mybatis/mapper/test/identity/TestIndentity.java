@@ -51,7 +51,7 @@ public class TestIndentity {
             //ID会回写
             Assert.assertNotNull(country.getId());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(country.getId()));
+            Assert.assertEquals(1, mapper.deleteById(country.getId()));
         } finally {
             sqlSession.close();
         }
@@ -80,7 +80,7 @@ public class TestIndentity {
             Assert.assertNotNull(list.get(0).getCountryname());
             Assert.assertEquals("天朝", list.get(0).getCountryname());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+            Assert.assertEquals(1, mapper.deleteById(10086));
         } finally {
             sqlSession.close();
         }
@@ -99,12 +99,12 @@ public class TestIndentity {
             //ID会回写
             Assert.assertNotNull(country.getId());
             //带有默认值的其他的属性不会自动回写,需要手动查询
-            country = mapper.selectByPrimaryKey(country);
+            country = mapper.selectById(country);
             //查询后,默认值不为null
             Assert.assertNotNull(country.getCountrycode());
             Assert.assertEquals("HH", country.getCountrycode());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(country.getId()));
+            Assert.assertEquals(1, mapper.deleteById(country.getId()));
         } finally {
             sqlSession.close();
         }
@@ -133,7 +133,7 @@ public class TestIndentity {
             Assert.assertNotNull(list.get(0).getCountryname());
             Assert.assertEquals("天朝", list.get(0).getCountryname());
             //删除插入的数据,以免对其他测试产生影响
-            Assert.assertEquals(1, mapper.deleteByPrimaryKey(10086));
+            Assert.assertEquals(1, mapper.deleteById(10086));
         } finally {
             sqlSession.close();
         }

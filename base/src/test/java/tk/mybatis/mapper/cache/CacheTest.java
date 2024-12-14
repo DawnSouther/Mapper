@@ -26,7 +26,7 @@ public class CacheTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Country country = mapper.selectByPrimaryKey(35);
+            Country country = mapper.selectById(35);
             Assert.assertEquals("China", country.getCountryname());
             Assert.assertEquals("CN", country.getCountrycode());
             //由于 CountryMapper 没有使用二级缓存，因此下面的设置不会影响下次（不同的 SqlSession）查询
@@ -39,7 +39,7 @@ public class CacheTest extends BaseTest {
         sqlSession = getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Country country = mapper.selectByPrimaryKey(35);
+            Country country = mapper.selectById(35);
 
             Assert.assertEquals("China", country.getCountryname());
             Assert.assertEquals("CN", country.getCountrycode());
@@ -57,7 +57,7 @@ public class CacheTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             CountryCacheMapper mapper = sqlSession.getMapper(CountryCacheMapper.class);
-            Country country = mapper.selectByPrimaryKey(35);
+            Country country = mapper.selectById(35);
             Assert.assertEquals("China", country.getCountryname());
             Assert.assertEquals("CN", country.getCountrycode());
             //这里修改会产生脏数据，这么做只是为了验证二级缓存
@@ -70,7 +70,7 @@ public class CacheTest extends BaseTest {
         sqlSession = getSqlSession();
         try {
             CountryCacheMapper mapper = sqlSession.getMapper(CountryCacheMapper.class);
-            Country country = mapper.selectByPrimaryKey(35);
+            Country country = mapper.selectById(35);
             Assert.assertEquals("中国", country.getCountryname());
             Assert.assertEquals("ZH", country.getCountrycode());
         } finally {
@@ -81,8 +81,8 @@ public class CacheTest extends BaseTest {
         try {
             CountryCacheMapper mapper = sqlSession.getMapper(CountryCacheMapper.class);
             //调用 update 清空缓存
-            mapper.updateByPrimaryKey(new Country());
-            Country country = mapper.selectByPrimaryKey(35);
+            mapper.updateById(new Country());
+            Country country = mapper.selectById(35);
             Assert.assertEquals("China", country.getCountryname());
             Assert.assertEquals("CN", country.getCountrycode());
         } finally {
@@ -92,12 +92,12 @@ public class CacheTest extends BaseTest {
 
     @Test
     public void testCountryCacheRefMapper() {
-        //--------------------selectByPrimaryKey---------------------
+        //--------------------selectById---------------------
         //利用二级缓存的脏数据特性来验证二级缓存
         SqlSession sqlSession = getSqlSession();
         try {
             CountryCacheRefMapper mapper = sqlSession.getMapper(CountryCacheRefMapper.class);
-            Country country = mapper.selectByPrimaryKey(35);
+            Country country = mapper.selectById(35);
             Assert.assertEquals("China", country.getCountryname());
             Assert.assertEquals("CN", country.getCountrycode());
             //这里修改会产生脏数据，这么做只是为了验证二级缓存
@@ -110,7 +110,7 @@ public class CacheTest extends BaseTest {
         sqlSession = getSqlSession();
         try {
             CountryCacheRefMapper mapper = sqlSession.getMapper(CountryCacheRefMapper.class);
-            Country country = mapper.selectByPrimaryKey(35);
+            Country country = mapper.selectById(35);
             Assert.assertEquals("中国", country.getCountryname());
             Assert.assertEquals("ZH", country.getCountrycode());
         } finally {
@@ -121,7 +121,7 @@ public class CacheTest extends BaseTest {
         sqlSession = getSqlSession();
         try {
             CountryCacheRefMapper mapper = sqlSession.getMapper(CountryCacheRefMapper.class);
-            Country country = mapper.selectById(35);
+            Country country = mapper.selectById2(35);
             Assert.assertEquals("China", country.getCountryname());
             Assert.assertEquals("CN", country.getCountrycode());
             //这里修改会产生脏数据，这么做只是为了验证二级缓存
@@ -134,7 +134,7 @@ public class CacheTest extends BaseTest {
         sqlSession = getSqlSession();
         try {
             CountryCacheRefMapper mapper = sqlSession.getMapper(CountryCacheRefMapper.class);
-            Country country = mapper.selectById(35);
+            Country country = mapper.selectById2(35);
             Assert.assertEquals("中国", country.getCountryname());
             Assert.assertEquals("ZH", country.getCountrycode());
         } finally {
@@ -145,8 +145,8 @@ public class CacheTest extends BaseTest {
         try {
             CountryCacheRefMapper mapper = sqlSession.getMapper(CountryCacheRefMapper.class);
             //调用 update 清空缓存
-            mapper.updateByPrimaryKey(new Country());
-            Country country = mapper.selectById(35);
+            mapper.updateById(new Country());
+            Country country = mapper.selectById2(35);
             Assert.assertEquals("China", country.getCountryname());
             Assert.assertEquals("CN", country.getCountrycode());
         } finally {
@@ -157,12 +157,12 @@ public class CacheTest extends BaseTest {
     @Test
     @Ignore("MyBatis 有 Bug，这种方式目前行不通")
     public void testCountryCacheWithXmlMapper() {
-        //--------------------selectByPrimaryKey---------------------
+        //--------------------selectById---------------------
         //利用二级缓存的脏数据特性来验证二级缓存
         SqlSession sqlSession = getSqlSession();
         try {
             CountryCacheWithXmlMapper mapper = sqlSession.getMapper(CountryCacheWithXmlMapper.class);
-            Country country = mapper.selectByPrimaryKey(35);
+            Country country = mapper.selectById(35);
             Assert.assertEquals("China", country.getCountryname());
             Assert.assertEquals("CN", country.getCountrycode());
             //这里修改会产生脏数据，这么做只是为了验证二级缓存
@@ -175,7 +175,7 @@ public class CacheTest extends BaseTest {
         sqlSession = getSqlSession();
         try {
             CountryCacheWithXmlMapper mapper = sqlSession.getMapper(CountryCacheWithXmlMapper.class);
-            Country country = mapper.selectByPrimaryKey(35);
+            Country country = mapper.selectById(35);
             Assert.assertEquals("中国", country.getCountryname());
             Assert.assertEquals("ZH", country.getCountrycode());
         } finally {
@@ -210,7 +210,7 @@ public class CacheTest extends BaseTest {
         try {
             CountryCacheWithXmlMapper mapper = sqlSession.getMapper(CountryCacheWithXmlMapper.class);
             //调用 update 清空缓存
-            mapper.updateByPrimaryKey(new Country());
+            mapper.updateById(new Country());
             Country country = mapper.selectById(35);
             Assert.assertEquals("China", country.getCountryname());
             Assert.assertEquals("CN", country.getCountrycode());

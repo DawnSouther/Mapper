@@ -37,7 +37,7 @@ public class SaveProvider extends MapperTemplate {
             String id = column.getColumn();
             sql.append("<choose>");
             sql.append("<when test='" + id + "!=null'>");
-            sql.append(updateByPrimaryKey(ms));
+            sql.append(updateById(ms));
             sql.append("</when>");
             sql.append("<otherwise>");
             sql.append(insert(ms));
@@ -53,7 +53,7 @@ public class SaveProvider extends MapperTemplate {
      *
      * @param ms
      */
-    public String updateByPrimaryKey(MappedStatement ms) {
+    public String updateById(MappedStatement ms) {
         Class<?> entityClass = getEntityClass(ms);
         StringBuilder sql = new StringBuilder();
         sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));

@@ -45,7 +45,7 @@
     </environments>
 
     <mappers>
-        <mapper class="tk.mybatis.mapper.additional.update.force.CountryIntMapper"/>
+        <mapper class="tk.mybatis.mapper.additional.update.force.CountryIntMapperPick"/>
     </mappers>
 
 </configuration>

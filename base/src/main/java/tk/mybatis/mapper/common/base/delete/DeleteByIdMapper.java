@@ -22,28 +22,28 @@
  * THE SOFTWARE.
  */
 
-package tk.mybatis.mapper.common.base.update;
+package tk.mybatis.mapper.common.base.delete;
 
-import org.apache.ibatis.annotations.UpdateProvider;
+import org.apache.ibatis.annotations.DeleteProvider;
 import tk.mybatis.mapper.annotation.RegisterMapper;
-import tk.mybatis.mapper.provider.base.BaseUpdateProvider;
+import tk.mybatis.mapper.provider.base.BaseDeleteProvider;
 
 /**
- * 通用Mapper接口,更新
+ * 通用Mapper接口,删除
  *
  * @param <T> 不能为空
  * @author liuzh
  */
 @RegisterMapper
-public interface UpdateByPrimaryKeyMapper<T> {
+public interface DeleteByIdMapper<T> {
 
     /**
-     * 根据主键更新实体全部字段，null值会被更新
+     * 根据主键字段进行删除，方法参数必须包含完整的主键属性
      *
-     * @param record
+     * @param key
      * @return
      */
-    @UpdateProvider(type = BaseUpdateProvider.class, method = "dynamicSQL")
-    int updateByPrimaryKey(T record);
+    @DeleteProvider(type = BaseDeleteProvider.class, method = "dynamicSQL")
+    int deleteById(Object key);
 
 }
