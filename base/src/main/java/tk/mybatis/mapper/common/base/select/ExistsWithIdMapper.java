@@ -24,6 +24,8 @@
 
 package tk.mybatis.mapper.common.base.select;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.annotations.SelectProvider;
 import tk.mybatis.mapper.annotation.RegisterMapper;
 import tk.mybatis.mapper.provider.base.BaseSelectProvider;
@@ -44,6 +46,6 @@ public interface ExistsWithIdMapper<T> {
      * @return
      */
     @SelectProvider(type = BaseSelectProvider.class, method = "dynamicSQL")
-    boolean existsWithId(Object key);
+    boolean existsWithId(Serializable key);
 
 }

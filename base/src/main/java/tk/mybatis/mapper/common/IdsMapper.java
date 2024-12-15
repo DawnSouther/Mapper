@@ -24,6 +24,7 @@
 
 package tk.mybatis.mapper.common;
 
+import tk.mybatis.mapper.annotation.RegisterMapper;
 import tk.mybatis.mapper.common.ids.DeleteByIdsMapper;
 import tk.mybatis.mapper.common.ids.SelectByIdsMapper;
 
@@ -33,7 +34,7 @@ import tk.mybatis.mapper.common.ids.SelectByIdsMapper;
  * @param <T> 不能为空
  * @author liuzh
  */
-@tk.mybatis.mapper.annotation.RegisterMapper
+@RegisterMapper
 public interface IdsMapper<T> extends SelectByIdsMapper<T>, DeleteByIdsMapper<T> {
 
 }

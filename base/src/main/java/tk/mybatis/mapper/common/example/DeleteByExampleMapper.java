@@ -25,6 +25,7 @@
 package tk.mybatis.mapper.common.example;
 
 import org.apache.ibatis.annotations.DeleteProvider;
+import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.provider.ExampleProvider;
 
 /**
@@ -43,6 +44,6 @@ public interface DeleteByExampleMapper<T> {
      * @return
      */
     @DeleteProvider(type = ExampleProvider.class, method = "dynamicSQL")
-    int deleteByExample(Object example);
+    int deleteByExample(Example<T> example);
 
 }

@@ -25,6 +25,7 @@
 package tk.mybatis.mapper.common;
 
 
+import tk.mybatis.mapper.annotation.RegisterMapper;
 import tk.mybatis.mapper.common.sqlserver.InsertMapper;
 import tk.mybatis.mapper.common.sqlserver.InsertSelectiveMapper;
 
@@ -34,7 +35,7 @@ import tk.mybatis.mapper.common.sqlserver.InsertSelectiveMapper;
  * @param <T> 不能为空
  * @author liuzh
  */
-@tk.mybatis.mapper.annotation.RegisterMapper
+@RegisterMapper
 public interface SqlServerMapper<T> extends
         InsertMapper<T>,
         InsertSelectiveMapper<T> {

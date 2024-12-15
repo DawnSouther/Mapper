@@ -24,6 +24,7 @@
 
 package tk.mybatis.mapper.common;
 
+import tk.mybatis.mapper.annotation.RegisterMapper;
 import tk.mybatis.mapper.common.example.*;
 
 /**
@@ -32,7 +33,7 @@ import tk.mybatis.mapper.common.example.*;
  * @param <T> 不能为空
  * @author liuzh
  */
-@tk.mybatis.mapper.annotation.RegisterMapper
+@RegisterMapper
 public interface ExampleMapper<T> extends
         SelectByExampleMapper<T>,
         SelectOneByExampleMapper<T>,

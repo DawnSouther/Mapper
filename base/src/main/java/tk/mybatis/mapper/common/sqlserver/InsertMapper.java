@@ -26,6 +26,7 @@ package tk.mybatis.mapper.common.sqlserver;
 
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Options;
+import tk.mybatis.mapper.annotation.RegisterMapper;
 import tk.mybatis.mapper.provider.SqlServerProvider;
 
 /**
@@ -34,7 +35,7 @@ import tk.mybatis.mapper.provider.SqlServerProvider;
  * @param <T> 不能为空
  * @author liuzh
  */
-@tk.mybatis.mapper.annotation.RegisterMapper
+@RegisterMapper
 public interface InsertMapper<T> {
 
     /**

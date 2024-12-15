@@ -24,6 +24,8 @@
 
 package tk.mybatis.mapper.common.base.delete;
 
+import java.io.Serializable;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import tk.mybatis.mapper.annotation.RegisterMapper;
 import tk.mybatis.mapper.provider.base.BaseDeleteProvider;
@@ -44,6 +46,6 @@ public interface DeleteByIdMapper<T> {
      * @return
      */
     @DeleteProvider(type = BaseDeleteProvider.class, method = "dynamicSQL")
-    int deleteById(Object key);
+    int deleteById(Serializable key);
 
 }

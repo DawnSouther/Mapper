@@ -24,6 +24,8 @@
 
 package tk.mybatis.mapper.common;
 
+import tk.mybatis.mapper.annotation.RegisterMapper;
+
 /**
  * 通用Mapper接口,其他接口继承该接口即可
  * <p/>
@@ -34,7 +36,7 @@ package tk.mybatis.mapper.common;
  * @param <T> 不能为空
  * @author liuzh
  */
-@tk.mybatis.mapper.annotation.RegisterMapper
+@RegisterMapper
 public interface Mapper<T> extends
         BaseMapper<T>,
         ExampleMapper<T>,

@@ -26,6 +26,7 @@ package tk.mybatis.mapper.common.example;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.UpdateProvider;
+import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.provider.ExampleProvider;
 
 /**
@@ -45,6 +46,6 @@ public interface UpdateByExampleSelectiveMapper<T> {
      * @return
      */
     @UpdateProvider(type = ExampleProvider.class, method = "dynamicSQL")
-    int updateByExampleSelective(@Param("record") T record, @Param("example") Object example);
+    int updateByExampleSelective(@Param("record") T record, @Param("example") Example<T> example);
 
 }

@@ -24,6 +24,7 @@
 
 package tk.mybatis.mapper.common;
 
+import tk.mybatis.mapper.annotation.RegisterMapper;
 import tk.mybatis.mapper.common.rowbounds.SelectByExampleRowBoundsMapper;
 import tk.mybatis.mapper.common.rowbounds.SelectRowBoundsMapper;
 
@@ -37,7 +38,7 @@ import tk.mybatis.mapper.common.rowbounds.SelectRowBoundsMapper;
  * @param <T> 不能为空
  * @author liuzh
  */
-@tk.mybatis.mapper.annotation.RegisterMapper
+@RegisterMapper
 public interface RowBoundsMapper<T> extends
         SelectByExampleRowBoundsMapper<T>,
         SelectRowBoundsMapper<T> {

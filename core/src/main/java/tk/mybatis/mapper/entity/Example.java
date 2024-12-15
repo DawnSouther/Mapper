@@ -1157,10 +1157,10 @@ public class Example<T> implements IDynamicTableName {
             }
         }
 
-        public Example build() {
+        public Example<T> build() {
             this.exampleCriterias = new ArrayList<>();
             for (Sqls.Criteria criteria : sqlsCriteria) {
-                Example.Criteria exampleCriteria = new Example.Criteria<T>(this.propertyMap, this.exists, this.notNull);
+                Example.Criteria<T> exampleCriteria = new Example.Criteria<T>(this.propertyMap, this.exists, this.notNull);
                 exampleCriteria.setAndOr(criteria.getAndOr());
                 for (Sqls.Criterion criterion : criteria.getCriterions()) {
                     String condition = criterion.getCondition();
@@ -1176,10 +1176,10 @@ public class Example<T> implements IDynamicTableName {
                 this.orderByClause = new StringBuilder(this.orderByClause.substring(1, this.orderByClause.length()));
             }
 
-            return new Example(this);
+            return new Example<T>(this);
         }
 
-        private void transformCriterion(Example.Criteria exampleCriteria, String condition, String property, Object[] values, String andOr) {
+        private void transformCriterion(Example.Criteria<T> exampleCriteria, String condition, String property, Object[] values, String andOr) {
             if (values.length == 0) {
                 if ("and".equals(andOr)) {
                     exampleCriteria.addCriterion(column(property) + " " + condition);
