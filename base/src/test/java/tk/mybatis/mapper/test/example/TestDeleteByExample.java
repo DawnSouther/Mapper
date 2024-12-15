@@ -32,6 +32,7 @@ import tk.mybatis.mapper.entity.model.CountryExample;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
+import tk.mybatis.mapper.model.Entity;
 
 /**
  * @author liuzh
@@ -45,6 +46,22 @@ public class TestDeleteByExample {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Example example = new Example(Country.class);
             example.createCriteria().andGreaterThan("id", 100);
+            int count = mapper.deleteByExample(example);
+            //查询总数
+            Assert.assertEquals(83, count);
+        } finally {
+            sqlSession.rollback();
+            sqlSession.close();
+        }
+    }
+
+    @Test
+    public void testDeleteByExample11() {
+        SqlSession sqlSession = MybatisHelper.getSqlSession();
+        try {
+            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
+            Example<Country> example = new Example<>(Country.class);
+            example.createCriteria().andGreaterThan(Entity::getId, 100);
             int count = mapper.deleteByExample(example);
             //查询总数
             Assert.assertEquals(83, count);

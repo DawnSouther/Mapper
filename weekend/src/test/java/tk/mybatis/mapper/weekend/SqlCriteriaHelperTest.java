@@ -23,7 +23,7 @@ public class SqlCriteriaHelperTest {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
-            List<Country> selectBySqlCriteriaHelper = mapper.selectByExample(new Example.Builder(Country.class)
+            List<Country> selectBySqlCriteriaHelper = mapper.selectByExample(new Example.Builder<>(Country.class)
                     .where(SqlCriteriaHelper.custom(Country.class)
                             .andEqualTo(Country::getCountryname, null)
                             .andLike(Country::getCountryname, "China")).build());

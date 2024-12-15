@@ -41,7 +41,7 @@ public class StringUtil {
      * @param str
      * @return
      */
-    public static boolean isEmpty(String str) {
+    public static boolean isEmpty(CharSequence str) {
         return str == null || str.length() == 0;
     }
 
@@ -137,4 +137,8 @@ public class StringUtil {
         }
         return c;
     }
+
+    public static final String SLASH = "/";
+    public static final String DOT = ".";
+    public static final String SEMICOLON = ";";
 }

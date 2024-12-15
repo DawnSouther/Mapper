@@ -25,11 +25,15 @@
 package tk.mybatis.mapper.entity;
 
 import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.reflection.property.PropertyNamer;
 import tk.mybatis.mapper.MapperException;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
 import tk.mybatis.mapper.util.MetaObjectUtil;
 import tk.mybatis.mapper.util.Sqls;
 import tk.mybatis.mapper.util.StringUtil;
+import tk.mybatis.mapper.util.LambdaUtils;
+import tk.mybatis.mapper.util.support.LambdaMeta;
+import tk.mybatis.mapper.util.support.SFunction;
 
 import java.util.*;
 
@@ -38,7 +42,7 @@ import java.util.*;
  *
  * @author liuzh
  */
-public class Example implements IDynamicTableName {
+public class Example<T> implements IDynamicTableName {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -57,9 +61,9 @@ public class Example implements IDynamicTableName {
 
     protected String countColumn;
 
-    protected List<Criteria> oredCriteria;
+    protected List<Criteria<T>> oredCriteria;
 
-    protected Class<?> entityClass;
+    protected Class<T> entityClass;
 
     protected EntityTable table;
     //属性和列对应
@@ -74,7 +78,7 @@ public class Example implements IDynamicTableName {
      *
      * @param entityClass
      */
-    public Example(Class<?> entityClass) {
+    public Example(Class<T> entityClass) {
         this(entityClass, true);
     }
 
@@ -84,7 +88,7 @@ public class Example implements IDynamicTableName {
      * @param entityClass
      * @param exists      - true时，如果字段不存在就抛出异常，false时，如果不存在就不使用该字段的条件
      */
-    public Example(Class<?> entityClass, boolean exists) {
+    public Example(Class<T> entityClass, boolean exists) {
         this(entityClass, exists, false);
     }
 
@@ -95,10 +99,10 @@ public class Example implements IDynamicTableName {
      * @param exists      - true时，如果字段不存在就抛出异常，false时，如果不存在就不使用该字段的条件
      * @param notNull     - true时，如果值为空，就会抛出异常，false时，如果为空就不使用该字段的条件
      */
-    public Example(Class<?> entityClass, boolean exists, boolean notNull) {
+    public Example(Class<T> entityClass, boolean exists, boolean notNull) {
         this.exists = exists;
         this.notNull = notNull;
-        oredCriteria = new ArrayList<Criteria>();
+        oredCriteria = new ArrayList<>();
         this.entityClass = entityClass;
         table = EntityHelper.getEntityTable(entityClass);
         //根据李领北建议修改#159
@@ -107,7 +111,7 @@ public class Example implements IDynamicTableName {
     }
 
 
-    private Example(Builder builder) {
+    private Example(Builder<T> builder) {
         this.exists = builder.exists;
         this.notNull = builder.notNull;
         this.distinct = builder.distinct;
@@ -125,13 +129,25 @@ public class Example implements IDynamicTableName {
         }
     }
 
-    public static Builder builder(Class<?> entityClass) {
-        return new Builder(entityClass);
+    public static <T1> Builder<T1> builder(Class<T1> entityClass) {
+        return new Builder<>(entityClass);
+    }
+
+    public OrderBy orderBy(SFunction<T, ?> column) {
+        this.ORDERBY.orderBy(getColumnCache(column));
+        return this.ORDERBY;
     }
 
     public OrderBy orderBy(String property) {
         this.ORDERBY.orderBy(property);
         return this.ORDERBY;
+    }
+
+    public Example<T> excludeProperties(SFunction<T, ?>... columns){
+        if(Objects.isNull(columns)){
+            return this;
+        }
+        return excludeProperties(Arrays.stream(columns).map(this::getColumnCache).toArray(String[]::new));
     }
 
     /**
@@ -140,7 +156,7 @@ public class Example implements IDynamicTableName {
      * @param properties 属性名的可变参数
      * @return
      */
-    public Example excludeProperties(String... properties) {
+    public Example<T> excludeProperties(String... properties) {
         if (properties != null && properties.length > 0) {
             if (this.excludeColumns == null) {
                 this.excludeColumns = new LinkedHashSet<String>();
@@ -156,13 +172,20 @@ public class Example implements IDynamicTableName {
         return this;
     }
 
+    public Example<T> selectProperties(SFunction<T,?>... columns) {
+        if(Objects.isNull(columns)){
+            return this;
+        }
+        return selectProperties(Arrays.stream(columns).map(this::getColumnCache).toArray(String[]::new));
+    }
+
     /**
      * 指定要查询的属性列 - 这里会自动映射到表字段
      *
      * @param properties
      * @return
      */
-    public Example selectProperties(String... properties) {
+    public Example<T> selectProperties(String... properties) {
         if (properties != null && properties.length > 0) {
             if (this.selectColumns == null) {
                 this.selectColumns = new LinkedHashSet<String>();
@@ -178,42 +201,41 @@ public class Example implements IDynamicTableName {
         return this;
     }
 
-    public void or(Criteria criteria) {
+    public void or(Criteria<T> criteria) {
         criteria.setAndOr("or");
         oredCriteria.add(criteria);
     }
 
-    public Criteria or() {
-        Criteria criteria = createCriteriaInternal();
+    public Criteria<T> or() {
+        Criteria<T> criteria = createCriteriaInternal();
         criteria.setAndOr("or");
         oredCriteria.add(criteria);
         return criteria;
     }
 
-    public void and(Criteria criteria) {
+    public void and(Criteria<T> criteria) {
         criteria.setAndOr("and");
         oredCriteria.add(criteria);
     }
 
-    public Criteria and() {
-        Criteria criteria = createCriteriaInternal();
+    public Criteria<T> and() {
+        Criteria<T> criteria = createCriteriaInternal();
         criteria.setAndOr("and");
         oredCriteria.add(criteria);
         return criteria;
     }
 
-    public Criteria createCriteria() {
-        Criteria criteria = createCriteriaInternal();
-        if (oredCriteria.size() == 0) {
+    public Criteria<T> createCriteria() {
+        Criteria<T> criteria = createCriteriaInternal();
+        if (oredCriteria.isEmpty()) {
             criteria.setAndOr("and");
             oredCriteria.add(criteria);
         }
         return criteria;
     }
 
-    protected Criteria createCriteriaInternal() {
-        Criteria criteria = new Criteria(propertyMap, exists, notNull);
-        return criteria;
+    protected Criteria<T> createCriteriaInternal() {
+        return new Criteria<>(propertyMap, exists, notNull);
     }
 
     public void clear() {
@@ -226,13 +248,13 @@ public class Example implements IDynamicTableName {
         return propertyMap;
     }
 
-    public static class OrderBy {
+    public static class OrderBy<T> {
         //属性和列对应
         protected Map<String, EntityColumn> propertyMap;
-        private Example example;
+        private Example<T> example;
         private Boolean isProperty;
 
-        public OrderBy(Example example, Map<String, EntityColumn> propertyMap) {
+        public OrderBy(Example<T> example, Map<String, EntityColumn> propertyMap) {
             this.example = example;
             this.propertyMap = propertyMap;
         }
@@ -248,7 +270,7 @@ public class Example implements IDynamicTableName {
             return propertyMap.get(property).getColumn();
         }
 
-        public OrderBy orderBy(String property) {
+        public OrderBy<T> orderBy(String property) {
             String column = property(property);
             if (column == null) {
                 isProperty = false;
@@ -263,7 +285,7 @@ public class Example implements IDynamicTableName {
             return this;
         }
 
-        public OrderBy desc() {
+        public OrderBy<T> desc() {
             if (isProperty) {
                 example.setOrderByClause(example.getOrderByClause() + " DESC");
                 isProperty = false;
@@ -271,7 +293,7 @@ public class Example implements IDynamicTableName {
             return this;
         }
 
-        public OrderBy asc() {
+        public OrderBy<T> asc() {
             if (isProperty) {
                 example.setOrderByClause(example.getOrderByClause() + " ASC");
                 isProperty = false;
@@ -280,7 +302,7 @@ public class Example implements IDynamicTableName {
         }
     }
 
-    protected abstract static class GeneratedCriteria {
+    protected abstract static class GeneratedCriteria<T> {
         protected List<Criterion> criteria;
         //字段是否必须存在
         protected boolean exists;
@@ -395,74 +417,157 @@ public class Example implements IDynamicTableName {
             criteria.add(new Criterion(condition, value1, value2, true));
         }
 
-        public Criteria andIsNull(String property) {
+        /**
+         * 获取 SerializedLambda 对应的列信息，从 lambda 表达式中推测实体类
+         * <p>
+         * 如果获取不到列信息，那么本次条件组装将会失败
+         *
+         * @return 列
+         * @throws NullPointerException 获取不到列信息时抛出异常
+         */
+        protected String getColumnCache(SFunction<T, ?> column) {
+            LambdaMeta meta = LambdaUtils.extract(column);
+            return PropertyNamer.methodToProperty(meta.getImplMethodName());
+        }
+
+        public Criteria<T> andIsNull(SFunction<T,?> column) {
+            addCriterion(column(getColumnCache(column)) + " is null");
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andIsNotNull(SFunction<T,?> column) {
+            addCriterion(column(getColumnCache(column)) + " is not null");
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andEqualTo(SFunction<T,?> column, Object value) {
+            addCriterion(column(getColumnCache(column)) + " =", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andNotEqualTo(SFunction<T,?> column, Object value) {
+            addCriterion(column(getColumnCache(column)) + " <>", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andGreaterThan(SFunction<T,?> column, Object value) {
+            addCriterion(column(getColumnCache(column)) + " >", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andGreaterThanOrEqualTo(SFunction<T,?> column, Object value) {
+            addCriterion(column(getColumnCache(column)) + " >=", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andLessThan(SFunction<T,?> column, Object value) {
+            addCriterion(column(getColumnCache(column)) + " <", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andLessThanOrEqualTo(SFunction<T,?> column, Object value) {
+            addCriterion(column(getColumnCache(column)) + " <=", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andIn(SFunction<T,?> column, Iterable<?> values) {
+            addCriterion(column(getColumnCache(column)) + " in", values, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andNotIn(SFunction<T,?> column, Iterable<?> values) {
+            addCriterion(column(getColumnCache(column)) + " not in", values, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andBetween(SFunction<T,?> column, Object value1, Object value2) {
+            addCriterion(column(getColumnCache(column)) + " between", value1, value2, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andNotBetween(SFunction<T,?> column, Object value1, Object value2) {
+            addCriterion(column(getColumnCache(column)) + " not between", value1, value2, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andLike(SFunction<T,?> column, String value) {
+            addCriterion(column(getColumnCache(column)) + "  like", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andNotLike(SFunction<T,?> column, String value) {
+            addCriterion(column(getColumnCache(column)) + "  not like", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> andIsNull(String property) {
             addCriterion(column(property) + " is null");
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andIsNotNull(String property) {
+        public Criteria<T> andIsNotNull(String property) {
             addCriterion(column(property) + " is not null");
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andEqualTo(String property, Object value) {
+        public Criteria<T> andEqualTo(String property, Object value) {
             addCriterion(column(property) + " =", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andNotEqualTo(String property, Object value) {
+        public Criteria<T> andNotEqualTo(String property, Object value) {
             addCriterion(column(property) + " <>", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andGreaterThan(String property, Object value) {
+        public Criteria<T> andGreaterThan(String property, Object value) {
             addCriterion(column(property) + " >", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andGreaterThanOrEqualTo(String property, Object value) {
+        public Criteria<T> andGreaterThanOrEqualTo(String property, Object value) {
             addCriterion(column(property) + " >=", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andLessThan(String property, Object value) {
+        public Criteria<T> andLessThan(String property, Object value) {
             addCriterion(column(property) + " <", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andLessThanOrEqualTo(String property, Object value) {
+        public Criteria<T> andLessThanOrEqualTo(String property, Object value) {
             addCriterion(column(property) + " <=", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andIn(String property, Iterable values) {
+        public Criteria<T> andIn(String property, Iterable<?> values) {
             addCriterion(column(property) + " in", values, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andNotIn(String property, Iterable values) {
+        public Criteria<T> andNotIn(String property, Iterable<?> values) {
             addCriterion(column(property) + " not in", values, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andBetween(String property, Object value1, Object value2) {
+        public Criteria<T> andBetween(String property, Object value1, Object value2) {
             addCriterion(column(property) + " between", value1, value2, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andNotBetween(String property, Object value1, Object value2) {
+        public Criteria<T> andNotBetween(String property, Object value1, Object value2) {
             addCriterion(column(property) + " not between", value1, value2, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andLike(String property, String value) {
+        public Criteria<T> andLike(String property, String value) {
             addCriterion(column(property) + "  like", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria andNotLike(String property, String value) {
+        public Criteria<T> andNotLike(String property, String value) {
             addCriterion(column(property) + "  not like", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
         /**
@@ -471,9 +576,9 @@ public class Example implements IDynamicTableName {
          * @param condition 例如 "length(countryname)<5"
          * @return
          */
-        public Criteria andCondition(String condition) {
+        public Criteria<T> andCondition(String condition) {
             addCriterion(condition);
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
         /**
@@ -483,9 +588,9 @@ public class Example implements IDynamicTableName {
          * @param value     例如 5
          * @return
          */
-        public Criteria andCondition(String condition, Object value) {
+        public Criteria<T> andCondition(String condition, Object value) {
             criteria.add(new Criterion(condition, value));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
         /**
@@ -495,9 +600,9 @@ public class Example implements IDynamicTableName {
          * @author Bob {@link}0haizhu0@gmail.com
          * @Date 2015年7月17日 下午12:48:08
          */
-        public Criteria andEqualTo(Object param) {
+        public Criteria<T> andEqualTo(Object param) {
             if (param == null) {
-                return (Criteria) this;
+                return (Criteria<T>) this;
             }
             MetaObject metaObject = MetaObjectUtil.forObject(param);
             String[] properties = metaObject.getGetterNames();
@@ -511,7 +616,7 @@ public class Example implements IDynamicTableName {
                     }
                 }
             }
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
         /**
@@ -519,7 +624,7 @@ public class Example implements IDynamicTableName {
          *
          * @param param 参数对象
          */
-        public Criteria andAllEqualTo(Object param) {
+        public Criteria<T> andAllEqualTo(Object param) {
             MetaObject metaObject = MetaObjectUtil.forObject(param);
             String[] properties = metaObject.getGetterNames();
             for (String property : properties) {
@@ -534,77 +639,147 @@ public class Example implements IDynamicTableName {
                     }
                 }
             }
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orIsNull(String property) {
+        public Criteria<T> orIsNull(SFunction<T,?> column) {
+            addOrCriterion(column(getColumnCache(column)) + " is null");
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orIsNotNull(SFunction<T,?> column) {
+            addOrCriterion(column(getColumnCache(column)) + " is not null");
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orEqualTo(SFunction<T,?> column, Object value) {
+            addOrCriterion(column(getColumnCache(column)) + " =", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orNotEqualTo(SFunction<T,?> column, Object value) {
+            addOrCriterion(column(getColumnCache(column)) + " <>", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orGreaterThan(SFunction<T,?> column, Object value) {
+            addOrCriterion(column(getColumnCache(column)) + " >", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orGreaterThanOrEqualTo(SFunction<T,?> column, Object value) {
+            addOrCriterion(column(getColumnCache(column)) + " >=", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orLessThan(SFunction<T,?> column, Object value) {
+            addOrCriterion(column(getColumnCache(column)) + " <", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orLessThanOrEqualTo(SFunction<T,?> column, Object value) {
+            addOrCriterion(column(getColumnCache(column)) + " <=", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orIn(SFunction<T,?> column, Iterable<?> values) {
+            addOrCriterion(column(getColumnCache(column)) + " in", values, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orNotIn(SFunction<T,?> column, Iterable<?> values) {
+            addOrCriterion(column(getColumnCache(column)) + " not in", values, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orBetween(SFunction<T,?> column, Object value1, Object value2) {
+            addOrCriterion(column(getColumnCache(column)) + " between", value1, value2, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orNotBetween(SFunction<T,?> column, Object value1, Object value2) {
+            addOrCriterion(column(getColumnCache(column)) + " not between", value1, value2, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orLike(SFunction<T,?> column, String value) {
+            addOrCriterion(column(getColumnCache(column)) + "  like", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orNotLike(SFunction<T,?> column, String value) {
+            addOrCriterion(column(getColumnCache(column)) + "  not like", value, property(getColumnCache(column)));
+            return (Criteria<T>) this;
+        }
+
+        public Criteria<T> orIsNull(String property) {
             addOrCriterion(column(property) + " is null");
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orIsNotNull(String property) {
+        public Criteria<T> orIsNotNull(String property) {
             addOrCriterion(column(property) + " is not null");
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orEqualTo(String property, Object value) {
+        public Criteria<T> orEqualTo(String property, Object value) {
             addOrCriterion(column(property) + " =", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orNotEqualTo(String property, Object value) {
+        public Criteria<T> orNotEqualTo(String property, Object value) {
             addOrCriterion(column(property) + " <>", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orGreaterThan(String property, Object value) {
+        public Criteria<T> orGreaterThan(String property, Object value) {
             addOrCriterion(column(property) + " >", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orGreaterThanOrEqualTo(String property, Object value) {
+        public Criteria<T> orGreaterThanOrEqualTo(String property, Object value) {
             addOrCriterion(column(property) + " >=", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orLessThan(String property, Object value) {
+        public Criteria<T> orLessThan(String property, Object value) {
             addOrCriterion(column(property) + " <", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orLessThanOrEqualTo(String property, Object value) {
+        public Criteria<T> orLessThanOrEqualTo(String property, Object value) {
             addOrCriterion(column(property) + " <=", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orIn(String property, Iterable values) {
+        public Criteria<T> orIn(String property, Iterable values) {
             addOrCriterion(column(property) + " in", values, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orNotIn(String property, Iterable values) {
+        public Criteria<T> orNotIn(String property, Iterable values) {
             addOrCriterion(column(property) + " not in", values, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orBetween(String property, Object value1, Object value2) {
+        public Criteria<T> orBetween(String property, Object value1, Object value2) {
             addOrCriterion(column(property) + " between", value1, value2, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orNotBetween(String property, Object value1, Object value2) {
+        public Criteria<T> orNotBetween(String property, Object value1, Object value2) {
             addOrCriterion(column(property) + " not between", value1, value2, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orLike(String property, String value) {
+        public Criteria<T> orLike(String property, String value) {
             addOrCriterion(column(property) + "  like", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
-        public Criteria orNotLike(String property, String value) {
+        public Criteria<T> orNotLike(String property, String value) {
             addOrCriterion(column(property) + "  not like", value, property(property));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
         /**
@@ -613,9 +788,9 @@ public class Example implements IDynamicTableName {
          * @param condition 例如 "length(countryname)<5"
          * @return
          */
-        public Criteria orCondition(String condition) {
+        public Criteria<T> orCondition(String condition) {
             addOrCriterion(condition);
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
         /**
@@ -625,9 +800,9 @@ public class Example implements IDynamicTableName {
          * @param value     例如 5
          * @return
          */
-        public Criteria orCondition(String condition, Object value) {
+        public Criteria<T> orCondition(String condition, Object value) {
             criteria.add(new Criterion(condition, value, true));
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
         /**
@@ -637,7 +812,7 @@ public class Example implements IDynamicTableName {
          * @author Bob {@link}0haizhu0@gmail.com
          * @Date 2015年7月17日 下午12:48:08
          */
-        public Criteria orEqualTo(Object param) {
+        public Criteria<T> orEqualTo(Object param) {
             MetaObject metaObject = MetaObjectUtil.forObject(param);
             String[] properties = metaObject.getGetterNames();
             for (String property : properties) {
@@ -650,7 +825,7 @@ public class Example implements IDynamicTableName {
                     }
                 }
             }
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
         /**
@@ -658,7 +833,7 @@ public class Example implements IDynamicTableName {
          *
          * @param param 参数对象
          */
-        public Criteria orAllEqualTo(Object param) {
+        public Criteria<T> orAllEqualTo(Object param) {
             MetaObject metaObject = MetaObjectUtil.forObject(param);
             String[] properties = metaObject.getGetterNames();
             for (String property : properties) {
@@ -673,7 +848,7 @@ public class Example implements IDynamicTableName {
                     }
                 }
             }
-            return (Criteria) this;
+            return (Criteria<T>) this;
         }
 
         public List<Criterion> getAllCriteria() {
@@ -693,11 +868,11 @@ public class Example implements IDynamicTableName {
         }
 
         public boolean isValid() {
-            return criteria.size() > 0;
+            return !criteria.isEmpty();
         }
     }
 
-    public static class Criteria extends GeneratedCriteria {
+    public static class Criteria<T> extends GeneratedCriteria<T> {
 
         protected Criteria(Map<String, EntityColumn> propertyMap, boolean exists, boolean notNull) {
             super(propertyMap, exists, notNull);
@@ -823,8 +998,8 @@ public class Example implements IDynamicTableName {
         }
     }
 
-    public static class Builder {
-        private final Class<?> entityClass;
+    public static class Builder<T> {
+        private final Class<T> entityClass;
         protected EntityTable table;
         //属性和列对应
         protected Map<String, EntityColumn> propertyMap;
@@ -840,19 +1015,19 @@ public class Example implements IDynamicTableName {
         private String countColumn;
         private List<Sqls.Criteria> sqlsCriteria;
         //动态表名
-        private List<Example.Criteria> exampleCriterias;
+        private List<Example.Criteria<T>> exampleCriterias;
         //动态表名
         private String tableName;
 
-        public Builder(Class<?> entityClass) {
+        public Builder(Class<T> entityClass) {
             this(entityClass, true);
         }
 
-        public Builder(Class<?> entityClass, boolean exists) {
+        public Builder(Class<T> entityClass, boolean exists) {
             this(entityClass, exists, false);
         }
 
-        public Builder(Class<?> entityClass, boolean exists, boolean notNull) {
+        public Builder(Class<T> entityClass, boolean exists, boolean notNull) {
             this.entityClass = entityClass;
             this.exists = exists;
             this.notNull = notNull;
@@ -862,21 +1037,21 @@ public class Example implements IDynamicTableName {
             this.sqlsCriteria = new ArrayList<Sqls.Criteria>(2);
         }
 
-        public Builder distinct() {
+        public Builder<T> distinct() {
             return setDistinct(true);
         }
 
-        public Builder forUpdate() {
+        public Builder<T> forUpdate() {
             return setForUpdate(true);
         }
 
-        public Builder selectDistinct(String... properties) {
+        public Builder<T> selectDistinct(String... properties) {
             select(properties);
             this.distinct = true;
             return this;
         }
 
-        public Builder select(String... properties) {
+        public Builder<T> select(String... properties) {
             if (properties != null && properties.length > 0) {
                 if (this.selectColumns == null) {
                     this.selectColumns = new LinkedHashSet<String>();
@@ -892,7 +1067,7 @@ public class Example implements IDynamicTableName {
             return this;
         }
 
-        public Builder notSelect(String... properties) {
+        public Builder<T> notSelect(String... properties) {
             if (properties != null && properties.length > 0) {
                 if (this.excludeColumns == null) {
                     this.excludeColumns = new LinkedHashSet<String>();
@@ -908,62 +1083,62 @@ public class Example implements IDynamicTableName {
             return this;
         }
 
-        public Builder from(String tableName) {
+        public Builder<T> from(String tableName) {
             return setTableName(tableName);
         }
 
-        public Builder where(Sqls sqls) {
+        public Builder<T> where(Sqls sqls) {
             Sqls.Criteria criteria = sqls.getCriteria();
             criteria.setAndOr("and");
             this.sqlsCriteria.add(criteria);
             return this;
         }
 
-        public Builder where(SqlsCriteria sqls) {
+        public Builder<T> where(SqlsCriteria sqls) {
             Sqls.Criteria criteria = sqls.getCriteria();
             criteria.setAndOr("and");
             this.sqlsCriteria.add(criteria);
             return this;
         }
 
-        public Builder andWhere(Sqls sqls) {
+        public Builder<T> andWhere(Sqls sqls) {
             Sqls.Criteria criteria = sqls.getCriteria();
             criteria.setAndOr("and");
             this.sqlsCriteria.add(criteria);
             return this;
         }
 
-        public Builder andWhere(SqlsCriteria sqls) {
+        public Builder<T> andWhere(SqlsCriteria sqls) {
             Sqls.Criteria criteria = sqls.getCriteria();
             criteria.setAndOr("and");
             this.sqlsCriteria.add(criteria);
             return this;
         }
 
-        public Builder orWhere(Sqls sqls) {
+        public Builder<T> orWhere(Sqls sqls) {
             Sqls.Criteria criteria = sqls.getCriteria();
             criteria.setAndOr("or");
             this.sqlsCriteria.add(criteria);
             return this;
         }
 
-        public Builder orWhere(SqlsCriteria sqls) {
+        public Builder<T> orWhere(SqlsCriteria sqls) {
             Sqls.Criteria criteria = sqls.getCriteria();
             criteria.setAndOr("or");
             this.sqlsCriteria.add(criteria);
             return this;
         }
 
-        public Builder orderBy(String... properties) {
+        public Builder<T> orderBy(String... properties) {
             return orderByAsc(properties);
         }
 
-        public Builder orderByAsc(String... properties) {
+        public Builder<T> orderByAsc(String... properties) {
             contactOrderByClause(" Asc", properties);
             return this;
         }
 
-        public Builder orderByDesc(String... properties) {
+        public Builder<T> orderByDesc(String... properties) {
             contactOrderByClause(" Desc", properties);
             return this;
         }
@@ -983,9 +1158,9 @@ public class Example implements IDynamicTableName {
         }
 
         public Example build() {
-            this.exampleCriterias = new ArrayList<Criteria>();
+            this.exampleCriterias = new ArrayList<>();
             for (Sqls.Criteria criteria : sqlsCriteria) {
-                Example.Criteria exampleCriteria = new Example.Criteria(this.propertyMap, this.exists, this.notNull);
+                Example.Criteria exampleCriteria = new Example.Criteria<T>(this.propertyMap, this.exists, this.notNull);
                 exampleCriteria.setAndOr(criteria.getAndOr());
                 for (Sqls.Criterion criterion : criteria.getCriterions()) {
                     String condition = criterion.getCondition();
@@ -1057,17 +1232,17 @@ public class Example implements IDynamicTableName {
             return propertyMap.get(property).getColumn();
         }
 
-        public Builder setDistinct(boolean distinct) {
+        public Builder<T> setDistinct(boolean distinct) {
             this.distinct = distinct;
             return this;
         }
 
-        public Builder setForUpdate(boolean forUpdate) {
+        public Builder<T> setForUpdate(boolean forUpdate) {
             this.forUpdate = forUpdate;
             return this;
         }
 
-        public Builder setTableName(String tableName) {
+        public Builder<T> setTableName(String tableName) {
             this.tableName = tableName;
             return this;
         }
@@ -1094,7 +1269,7 @@ public class Example implements IDynamicTableName {
         this.orderByClause = orderByClause;
     }
 
-    public List<Criteria> getOredCriteria() {
+    public List<Criteria<T>> getOredCriteria() {
         return oredCriteria;
     }
 
@@ -1113,6 +1288,19 @@ public class Example implements IDynamicTableName {
         return selectColumns;
     }
 
+    /**
+     * 获取 SerializedLambda 对应的列信息，从 lambda 表达式中推测实体类
+     * <p>
+     * 如果获取不到列信息，那么本次条件组装将会失败
+     *
+     * @return 列
+     * @throws NullPointerException 获取不到列信息时抛出异常
+     */
+    protected String getColumnCache(SFunction<T, ?> column) {
+        LambdaMeta meta = LambdaUtils.extract(column);
+        return PropertyNamer.methodToProperty(meta.getImplMethodName());
+    }
+
     public boolean isDistinct() {
         return distinct;
     }
@@ -1127,6 +1315,10 @@ public class Example implements IDynamicTableName {
 
     public void setForUpdate(boolean forUpdate) {
         this.forUpdate = forUpdate;
+    }
+
+    public void setCountProperty(SFunction<T,?> column) {
+        setCountProperty(getColumnCache(column));
     }
 
     /**

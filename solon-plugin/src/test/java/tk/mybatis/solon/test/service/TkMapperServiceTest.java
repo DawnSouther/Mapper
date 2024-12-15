@@ -1,7 +1,6 @@
 package tk.mybatis.solon.test.service;
 
 import org.apache.ibatis.solon.annotation.Db;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.noear.solon.test.SolonJUnit4ClassRunner;
@@ -52,7 +51,7 @@ public class TkMapperServiceTest {
      */
     @Test
     public void exampleQuery() {
-        Example example = new Example(User.class);
+        Example<User> example = new Example<>(User.class);
         example.and().andLike("name", "%张%");
         userMapper.selectByExample(example).forEach(u -> log.info(u.toString()));
     }

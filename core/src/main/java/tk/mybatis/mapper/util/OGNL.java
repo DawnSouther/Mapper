@@ -267,11 +267,11 @@ public abstract class OGNL {
      * @param example
      * @return
      */
-    private static boolean hasWhereCause(Example example) {
+    private static <T> boolean hasWhereCause(Example<T> example) {
         if (example.getOredCriteria() == null || example.getOredCriteria().size() == 0) {
             return false;
         }
-        for (Example.Criteria oredCriterion : example.getOredCriteria()) {
+        for (Example.Criteria<T> oredCriterion : example.getOredCriteria()) {
             if (oredCriterion.getAllCriteria().size() != 0) {
                 return true;
             }

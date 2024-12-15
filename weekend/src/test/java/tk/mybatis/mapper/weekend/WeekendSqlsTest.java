@@ -48,7 +48,7 @@ public class WeekendSqlsTest {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
-            List<Country> selectByWeekendSql = mapper.selectByExample(new Example.Builder(Country.class)
+            List<Country> selectByWeekendSql = mapper.selectByExample(new Example.Builder<>(Country.class)
                     .where(WeekendSqls.<Country>custom().andLike(Country::getCountryname, "China")).build());
 
             List<Country> selectByExample = mapper.selectByExample(
