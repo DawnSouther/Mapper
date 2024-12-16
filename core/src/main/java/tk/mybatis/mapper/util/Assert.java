@@ -14,6 +14,10 @@ public abstract class Assert {
         }
     }
 
+    public static void isFalse(boolean expression, String errorMsg) throws IllegalArgumentException {
+        isTrue(!expression,errorMsg);
+    }
+
     public static void isNull(Object object, String errorMsg) throws IllegalArgumentException {
         if (object != null) {
             throw new IllegalArgumentException(errorMsg);

@@ -51,8 +51,56 @@ public class StringUtil {
      * @param str
      * @return
      */
-    public static boolean isNotEmpty(String str) {
+    public static boolean isNotEmpty(CharSequence str) {
         return !isEmpty(str);
+    }
+
+    /**
+     * @see #isBlank(CharSequence)
+     */
+    public static boolean isNotBlank(CharSequence cs) {
+        return !isBlank(cs);
+    }
+
+    /**
+     * 判断字符串中是否全是空白字符
+     *
+     * @param cs 需要判断的字符串
+     * @return 如果字符串序列是 null 或者全是空白，返回 true
+     */
+    public static boolean isBlank(CharSequence cs) {
+        if (cs != null) {
+            int length = cs.length();
+            for (int i = 0; i < length; i++) {
+                if (!Character.isWhitespace(cs.charAt(i))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 判断对象是否为空
+     *
+     * @param object ignore
+     * @return ignore
+     */
+    public static boolean checkValNull(Object object) {
+        return !checkValNotNull(object);
+    }
+
+    /**
+     * 判断对象是否不为空
+     *
+     * @param object ignore
+     * @return ignore
+     */
+    public static boolean checkValNotNull(Object object) {
+        if (object instanceof CharSequence) {
+            return isNotEmpty((CharSequence) object);
+        }
+        return object != null;
     }
 
 
@@ -141,4 +189,5 @@ public class StringUtil {
     public static final String SLASH = "/";
     public static final String DOT = ".";
     public static final String SEMICOLON = ";";
+    public static final String AT = "@";
 }
