@@ -99,7 +99,7 @@ public class TestIndentity {
             //ID会回写
             Assert.assertNotNull(country.getId());
             //带有默认值的其他的属性不会自动回写,需要手动查询
-            country = mapper.selectById(country);
+            country = mapper.selectById(country.getId());
             //查询后,默认值不为null
             Assert.assertNotNull(country.getCountrycode());
             Assert.assertEquals("HH", country.getCountrycode());

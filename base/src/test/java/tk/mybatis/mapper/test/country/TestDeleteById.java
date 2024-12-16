@@ -24,21 +24,20 @@
 
 package tk.mybatis.mapper.test.country;
 
+import java.io.IOException;
+import java.io.Reader;
+import java.sql.Connection;
+
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
-
-import java.io.IOException;
-import java.io.Reader;
-import java.sql.Connection;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 通过主键删除
@@ -116,42 +115,6 @@ public class TestDeleteById {
             Country country = new Country();
             country.setId(100);
             Assert.assertEquals(1, mapper.deleteById(country));
-        } finally {
-            sqlSession.close();
-        }
-    }
-
-    /**
-     * Map可以随意
-     */
-    @Test
-    public void testDynamicDeleteMap() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-
-            Map map = new HashMap();
-            map.put("id", 100);
-            Assert.assertEquals(1, mapper.deleteById(map));
-
-            map = new HashMap();
-            map.put("countryname", "China");
-            Assert.assertEquals(0, mapper.deleteById(map));
-        } finally {
-            sqlSession.close();
-        }
-    }
-
-    /**
-     * 对象不包含主键
-     */
-    @Test(expected = Exception.class)
-    public void testDynamicDeleteNotFoundKeyProperties() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            //根据主键删除
-            Assert.assertEquals(0, mapper.deleteById(new Key()));
         } finally {
             sqlSession.close();
         }

@@ -122,11 +122,11 @@ public class MybatisLanguageDriverAutoConfiguration {
                 return super.getDialect();
             }
 
-            @ConfigurationProperties(CONFIGURATION_PROPERTY_PREFIX + ".thymeleaf.template-file")
-            @Override
-            public TemplateFileConfig getTemplateFile() {
-                return super.getTemplateFile();
-            }
+            // @ConfigurationProperties(CONFIGURATION_PROPERTY_PREFIX + ".thymeleaf.template-file")
+            // @Override
+            // public TemplateFileConfig getTemplateFile() {
+            //     return super.getTemplateFile();
+            // }
 
         }
 

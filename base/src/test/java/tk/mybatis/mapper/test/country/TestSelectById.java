@@ -32,7 +32,6 @@ import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 通过主键查询
@@ -99,44 +98,6 @@ public class TestSelectById {
         }
     }
 
-    /**
-     * Map可以随意
-     */
-    @Test
-    public void testSelectByIdMap() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-
-            Map map = new HashMap();
-            map.put("id", 35);
-            Country country = mapper.selectById(map);
-            Assert.assertNotNull(country);
-            Assert.assertEquals(true, country.getId() == 35);
-            Assert.assertEquals("China", country.getCountryname());
-            Assert.assertEquals("CN", country.getCountrycode());
-
-            map = new HashMap();
-            map.put("countryname", "China");
-            Assert.assertNull(mapper.selectById(map));
-        } finally {
-            sqlSession.close();
-        }
-    }
-
-    /**
-     * 对象不包含主键
-     */
-    @Test(expected = Exception.class)
-    public void testDynamicDeleteNotFoundKeyProperties() {
-        SqlSession sqlSession = MybatisHelper.getSqlSession();
-        try {
-            CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.selectById(new Key());
-        } finally {
-            sqlSession.close();
-        }
-    }
 
     /**
      * 主键格式错误
