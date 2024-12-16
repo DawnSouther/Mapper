@@ -27,7 +27,7 @@ package tk.mybatis.mapper.test.example;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
-import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.model.CountryExample;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
@@ -43,16 +43,16 @@ public class TestUpdateByExampleSelective {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = new Example(Country.class);
+            Condition example = new Condition(Country.class);
             example.createCriteria().andGreaterThan("id", 100);
             Country country = new Country();
             country.setCountryname("天朝");
-            int count = mapper.updateByExampleSelective(country, example);
+            int count = mapper.updateByConditionSelective(country, example);
             Assert.assertEquals(83, count);
 
-            example = new Example(Country.class);
+            example = new Condition(Country.class);
             example.createCriteria().andEqualTo("countryname", "天朝");
-            count = mapper.selectCountByExample(example);
+            count = mapper.selectCountByCondition(example);
             Assert.assertEquals(83, count);
         } finally {
             sqlSession.rollback();
@@ -65,18 +65,18 @@ public class TestUpdateByExampleSelective {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = new Example(Country.class);
+            Condition example = new Condition(Country.class);
             example.createCriteria().andLike("countryname", "A%");
             example.or().andGreaterThan("id", 100);
             example.setDistinct(true);
             Country country = new Country();
             country.setCountryname("天朝");
-            int count = mapper.updateByExampleSelective(country, example);
+            int count = mapper.updateByConditionSelective(country, example);
             Assert.assertEquals(true, count > 83);
 
-            example = new Example(Country.class);
+            example = new Condition(Country.class);
             example.createCriteria().andEqualTo("countryname", "天朝");
-            count = mapper.selectCountByExample(example);
+            count = mapper.selectCountByCondition(example);
             Assert.assertEquals(true, count > 83);
         } finally {
             sqlSession.rollback();

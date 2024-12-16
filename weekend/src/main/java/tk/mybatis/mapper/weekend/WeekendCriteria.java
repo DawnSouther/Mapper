@@ -26,7 +26,7 @@
 package tk.mybatis.mapper.weekend;
 
 import tk.mybatis.mapper.entity.EntityColumn;
-import tk.mybatis.mapper.entity.Example.Criteria;
+import tk.mybatis.mapper.entity.Condition.Criteria;
 import tk.mybatis.mapper.weekend.reflection.Reflections;
 
 import java.util.Map;

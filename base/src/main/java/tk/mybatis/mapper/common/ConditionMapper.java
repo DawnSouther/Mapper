@@ -24,12 +24,11 @@
 
 package tk.mybatis.mapper.common;
 
-
 import tk.mybatis.mapper.annotation.RegisterMapper;
 import tk.mybatis.mapper.common.condition.*;
 
 /**
- * 通用Mapper接口,Condition查询
+ * 通用Mapper接口,Example查询
  *
  * @param <T> 不能为空
  * @author liuzh
@@ -37,6 +36,7 @@ import tk.mybatis.mapper.common.condition.*;
 @RegisterMapper
 public interface ConditionMapper<T> extends
         SelectByConditionMapper<T>,
+        SelectOneByConditionMapper<T>,
         SelectCountByConditionMapper<T>,
         DeleteByConditionMapper<T>,
         UpdateByConditionMapper<T>,

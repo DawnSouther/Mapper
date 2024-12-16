@@ -7,7 +7,7 @@ import tk.mybatis.mapper.base.BaseTest;
 import tk.mybatis.mapper.base.Country;
 import tk.mybatis.mapper.base.CountryMapper;
 import tk.mybatis.mapper.entity.Config;
-import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Condition;
 
 public class SafeDeleteByFieldTest extends BaseTest {
 
@@ -45,7 +45,7 @@ public class SafeDeleteByFieldTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.deleteByExample(new Example(Country.class));
+            mapper.deleteByCondition(new Condition(Country.class));
         } finally {
             sqlSession.close();
         }
@@ -56,7 +56,7 @@ public class SafeDeleteByFieldTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.deleteByExample(null);
+            mapper.deleteByCondition(null);
         } finally {
             sqlSession.close();
         }

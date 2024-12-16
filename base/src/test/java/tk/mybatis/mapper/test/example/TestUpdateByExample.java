@@ -27,7 +27,7 @@ package tk.mybatis.mapper.test.example;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
-import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.model.CountryExample;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
@@ -45,18 +45,18 @@ public class TestUpdateByExample {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = new Example(Country.class);
+            Condition example = new Condition(Country.class);
             example.createCriteria().andEqualTo("id", 35);
             Country country = new Country();
             //country.setDynamicTableName123("country_123");
             country.setCountryname("天朝");
             country.setId(1000);
-            int count = mapper.updateByExample(country, example);
+            int count = mapper.updateByCondition(country, example);
             Assert.assertEquals(1, count);
 
-            example = new Example(Country.class);
+            example = new Condition(Country.class);
             example.createCriteria().andIsNull("countrycode");
-            count = mapper.selectCountByExample(example);
+            count = mapper.selectCountByCondition(example);
             Assert.assertEquals(1, count);
         } finally {
             sqlSession.rollback();

@@ -26,25 +26,28 @@ package tk.mybatis.mapper.common.condition;
 
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.UpdateProvider;
+
+import tk.mybatis.mapper.annotation.RegisterMapper;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.provider.ConditionProvider;
 
 /**
- * 通用Mapper接口,Condition查询
+ * 通用Mapper接口,Example查询
  *
  * @param <T> 不能为空
  * @author liuzh
  */
-@tk.mybatis.mapper.annotation.RegisterMapper
+@RegisterMapper
 public interface UpdateByConditionMapper<T> {
 
     /**
-     * 根据Condition条件更新实体`record`包含的全部属性，null值会被更新
+     * 根据Example条件更新实体`record`包含的全部属性，null值会被更新
      *
      * @param record
-     * @param condition
+     * @param example
      * @return
      */
     @UpdateProvider(type = ConditionProvider.class, method = "dynamicSQL")
-    int updateByCondition(@Param("record") T record, @Param("example") Object condition);
+    int updateByCondition(@Param("record") T record, @Param("example") Condition<T> example);
 
 }

@@ -5,7 +5,6 @@ import tk.mybatis.mapper.MapperException;
 import tk.mybatis.mapper.entity.EntityColumn;
 import tk.mybatis.mapper.mapperhelper.*;
 
-import java.lang.reflect.Field;
 import java.util.Set;
 
 /**
@@ -28,7 +27,6 @@ public class SaveProvider extends MapperTemplate {
     public String save(MappedStatement ms){
 
         Class<?> entityClass = getEntityClass(ms);
-        Field[] fields = entityClass.getFields();
         StringBuilder sql = new StringBuilder();
 
         Set<EntityColumn> columnList = EntityHelper.getPKColumns(entityClass);

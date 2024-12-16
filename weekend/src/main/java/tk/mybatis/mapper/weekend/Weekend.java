@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 /**
  * @author Frank
  */
-public class Weekend<T> extends tk.mybatis.mapper.entity.Example {
+public class Weekend<T> extends tk.mybatis.mapper.entity.Condition {
 
     public Weekend(Class<T> entityClass) {
         super(entityClass);

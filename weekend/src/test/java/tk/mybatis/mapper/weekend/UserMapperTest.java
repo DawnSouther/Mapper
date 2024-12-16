@@ -53,7 +53,7 @@ public class UserMapperTest {
                 .andBetween(User::getId, 0, 10)
                 .andIn(User::getUserName, Arrays.asList("a", "b", "c"));
 
-        List<User> users = userMapper.selectByExample(weekend);
+        List<User> users = userMapper.selectByCondition(weekend);
         for (User user : users) {
             System.out.println(user.getUserName());
         }
@@ -66,14 +66,14 @@ public class UserMapperTest {
         Weekend<Country> weekend1 = Weekend.of(Country.class);
         weekend1.excludeProperties(Country::getId, Country::getCountryname);
         //查看日志执行的sql
-        countryMapper.selectByExample(weekend1);
+        countryMapper.selectByCondition(weekend1);
         Weekend<Country> weekend2 = Weekend.of(Country.class);
         weekend2.selectProperties(Country::getId);
         //查看日志执行的sql
-        countryMapper.selectByExample(weekend2);
+        countryMapper.selectByCondition(weekend2);
         //count 查询
         weekend2.withCountProperty(Country::getCountryname);
-        countryMapper.selectCountByExample(weekend2);
+        countryMapper.selectCountByCondition(weekend2);
 
     }
 }

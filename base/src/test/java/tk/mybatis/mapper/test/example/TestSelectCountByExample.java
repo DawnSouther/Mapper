@@ -27,7 +27,7 @@ package tk.mybatis.mapper.test.example;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
-import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.model.CountryExample;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
@@ -43,10 +43,10 @@ public class TestSelectCountByExample {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = new Example(Country.class);
+            Condition example = new Condition(Country.class);
             example.setCountProperty("id");
             example.createCriteria().andGreaterThan("id", 100);
-            int count = mapper.selectCountByExample(example);
+            int count = mapper.selectCountByCondition(example);
             //查询总数
             Assert.assertEquals(83, count);
         } finally {
@@ -59,10 +59,10 @@ public class TestSelectCountByExample {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = new Example(Country.class);
+            Condition example = new Condition(Country.class);
             example.setForUpdate(true);
             example.createCriteria().andGreaterThan("id", 100);
-            int count = mapper.selectCountByExample(example);
+            int count = mapper.selectCountByCondition(example);
             //查询总数
             Assert.assertEquals(83, count);
         } finally {
@@ -75,11 +75,11 @@ public class TestSelectCountByExample {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = new Example(Country.class);
+            Condition example = new Condition(Country.class);
             example.createCriteria().andLike("countryname", "A%");
             example.or().andGreaterThan("id", 100);
             example.setDistinct(true);
-            int count = mapper.selectCountByExample(example);
+            int count = mapper.selectCountByCondition(example);
             //查询总数
             Assert.assertEquals(true, count > 83);
         } finally {

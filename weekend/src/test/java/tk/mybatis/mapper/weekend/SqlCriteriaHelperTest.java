@@ -3,7 +3,7 @@ package tk.mybatis.mapper.weekend;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
-import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.weekend.entity.Country;
 import tk.mybatis.mapper.weekend.mapper.CountryMapper;
 
@@ -23,7 +23,7 @@ public class SqlCriteriaHelperTest {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
-            List<Country> selectBySqlCriteriaHelper = mapper.selectByExample(new Example.Builder<>(Country.class)
+            List<Country> selectBySqlCriteriaHelper = mapper.selectByCondition(new Condition.Builder<>(Country.class)
                     .where(SqlCriteriaHelper.custom(Country.class)
                             .andEqualTo(Country::getCountryname, null)
                             .andLike(Country::getCountryname, "China")).build());
@@ -51,7 +51,7 @@ public class SqlCriteriaHelperTest {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
-            List<Country> selectBySqlCriteriaHelper = mapper.selectByExample(new Example.Builder(Country.class)
+            List<Country> selectBySqlCriteriaHelper = mapper.selectByCondition(new Condition.Builder(Country.class)
                     .where(SqlCriteriaHelper.custom(Country.class)
                             // required = true 则继续查询
                             .andEqualTo(Country::getCountryname, null, true)).build());
@@ -73,7 +73,7 @@ public class SqlCriteriaHelperTest {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
-            List<Country> selectBySqlCriteriaHelper = mapper.selectByExample(new Example.Builder(Country.class)
+            List<Country> selectBySqlCriteriaHelper = mapper.selectByCondition(new Condition.Builder(Country.class)
                     .where(SqlCriteriaHelper.custom(Country.class)
                             .andLike(Country::getCountryname, "Chin")
                             .orLike(Country::getCountryname, "A")).build());
@@ -99,7 +99,7 @@ public class SqlCriteriaHelperTest {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
 
-            List<Country> selectBySqlCriteriaHelper = mapper.selectByExample(new Example.Builder(Country.class)
+            List<Country> selectBySqlCriteriaHelper = mapper.selectByCondition(new Condition.Builder(Country.class)
                     .where(SqlCriteriaHelper.custom(Country.class)
                             .andIn(Country::getCountryname, new ArrayList())
                             .orLike(Country::getCountryname, "A")).build());

@@ -63,6 +63,7 @@ public class TestUserLogin {
             Assert.assertNotNull(userLogin.getLogid());
             Assert.assertTrue(userLogin.getLogid() > 10);
             //这里测了实体类入参的删除
+            System.out.println(userLogin.getLogid());
             Assert.assertEquals(1, mapper.deleteById(userLogin.getLogid()));
 
         } finally {

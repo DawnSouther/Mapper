@@ -25,8 +25,11 @@
 package tk.mybatis.mapper.provider;
 
 import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.SqlCommandType;
 import tk.mybatis.mapper.mapperhelper.MapperHelper;
 import tk.mybatis.mapper.mapperhelper.MapperTemplate;
+import tk.mybatis.mapper.mapperhelper.SqlHelper;
+import tk.mybatis.mapper.util.MetaObjectUtil;
 
 /**
  * ConditionProvider实现类，基础方法实现类
@@ -35,11 +38,8 @@ import tk.mybatis.mapper.mapperhelper.MapperTemplate;
  */
 public class ConditionProvider extends MapperTemplate {
 
-    private ExampleProvider exampleProvider;
-
     public ConditionProvider(Class<?> mapperClass, MapperHelper mapperHelper) {
         super(mapperClass, mapperHelper);
-        exampleProvider = new ExampleProvider(mapperClass, mapperHelper);
     }
 
     /**
@@ -49,38 +49,80 @@ public class ConditionProvider extends MapperTemplate {
      * @return
      */
     public String selectCountByCondition(MappedStatement ms) {
-        return exampleProvider.selectCountByExample(ms);
+        Class<?> entityClass = getEntityClass(ms);
+        StringBuilder sql = new StringBuilder("SELECT ");
+        if (isCheckExampleEntityClass()) {
+            sql.append(SqlHelper.exampleCheck(entityClass));
+        }
+        sql.append(SqlHelper.exampleCountColumn(entityClass));
+        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
+        sql.append(SqlHelper.exampleWhereClause());
+        sql.append(SqlHelper.exampleForUpdate());
+        return sql.toString();
     }
 
     /**
-     * 根据Condition删除
+     * 根据Example删除
      *
      * @param ms
      * @return
      */
     public String deleteByCondition(MappedStatement ms) {
-        return exampleProvider.deleteByExample(ms);
+        Class<?> entityClass = getEntityClass(ms);
+        StringBuilder sql = new StringBuilder();
+        if (isCheckExampleEntityClass()) {
+            sql.append(SqlHelper.exampleCheck(entityClass));
+        }
+        //如果设置了安全删除，就不允许执行不带查询条件的 delete 方法
+        if (getConfig().isSafeDelete()) {
+            sql.append(SqlHelper.exampleHasAtLeastOneCriteriaCheck("_parameter"));
+        }
+        if (SqlHelper.hasLogicDeleteColumn(entityClass)) {
+            sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass)));
+            sql.append("<set>");
+            sql.append(SqlHelper.logicDeleteColumnEqualsValue(entityClass, true));
+            sql.append("</set>");
+            MetaObjectUtil.forObject(ms).setValue("sqlCommandType", SqlCommandType.UPDATE);
+        } else {
+            sql.append(SqlHelper.deleteFromTable(entityClass, tableName(entityClass)));
+        }
+        sql.append(SqlHelper.exampleWhereClause());
+        return sql.toString();
     }
 
 
     /**
-     * 根据Condition查询
+     * 根据Example查询
      *
      * @param ms
      * @return
      */
     public String selectByCondition(MappedStatement ms) {
-        return exampleProvider.selectByExample(ms);
+        Class<?> entityClass = getEntityClass(ms);
+        //将返回值修改为实体类型
+        setResultType(ms, entityClass);
+        StringBuilder sql = new StringBuilder("SELECT ");
+        if (isCheckExampleEntityClass()) {
+            sql.append(SqlHelper.exampleCheck(entityClass));
+        }
+        sql.append("<if test=\"distinct\">distinct</if>");
+        //支持查询指定列
+        sql.append(SqlHelper.exampleSelectColumns(entityClass));
+        sql.append(SqlHelper.fromTable(entityClass, tableName(entityClass)));
+        sql.append(SqlHelper.exampleWhereClause());
+        sql.append(SqlHelper.exampleOrderBy(entityClass));
+        sql.append(SqlHelper.exampleForUpdate());
+        return sql.toString();
     }
 
     /**
-     * 根据Condition查询
+     * 根据Example查询
      *
      * @param ms
      * @return
      */
     public String selectByConditionAndRowBounds(MappedStatement ms) {
-        return exampleProvider.selectByExample(ms);
+        return selectByCondition(ms);
     }
 
     /**
@@ -90,16 +132,50 @@ public class ConditionProvider extends MapperTemplate {
      * @return
      */
     public String updateByConditionSelective(MappedStatement ms) {
-        return exampleProvider.updateByExampleSelective(ms);
+        Class<?> entityClass = getEntityClass(ms);
+        StringBuilder sql = new StringBuilder();
+        if (isCheckExampleEntityClass()) {
+            sql.append(SqlHelper.exampleCheck(entityClass));
+        }
+        //安全更新，Example 必须包含条件
+        if (getConfig().isSafeUpdate()) {
+            sql.append(SqlHelper.exampleHasAtLeastOneCriteriaCheck("example"));
+        }
+        sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass), "example"));
+        sql.append(SqlHelper.updateSetColumnsIgnoreVersion(entityClass, "record", true, isNotEmpty()));
+        sql.append(SqlHelper.updateByExampleWhereClause());
+        return sql.toString();
     }
 
     /**
-     * 根据Condition更新
+     * 根据Example更新
      *
      * @param ms
      * @return
      */
     public String updateByCondition(MappedStatement ms) {
-        return exampleProvider.updateByExample(ms);
+        Class<?> entityClass = getEntityClass(ms);
+        StringBuilder sql = new StringBuilder();
+        if (isCheckExampleEntityClass()) {
+            sql.append(SqlHelper.exampleCheck(entityClass));
+        }
+        //安全更新，Example 必须包含条件
+        if (getConfig().isSafeUpdate()) {
+            sql.append(SqlHelper.exampleHasAtLeastOneCriteriaCheck("example"));
+        }
+        sql.append(SqlHelper.updateTable(entityClass, tableName(entityClass), "example"));
+        sql.append(SqlHelper.updateSetColumnsIgnoreVersion(entityClass, "record", false, false));
+        sql.append(SqlHelper.updateByExampleWhereClause());
+        return sql.toString();
+    }
+
+    /**
+     * 根据Example查询一个结果
+     *
+     * @param ms
+     * @return
+     */
+    public String selectOneByCondition(MappedStatement ms) {
+        return selectByCondition(ms);
     }
 }

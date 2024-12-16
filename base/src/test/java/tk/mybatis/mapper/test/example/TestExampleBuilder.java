@@ -3,7 +3,7 @@ package tk.mybatis.mapper.test.example;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
-import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
@@ -24,14 +24,14 @@ public class TestExampleBuilder {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = Example.builder(Country.class).build();
-            List<Country> countries = mapper.selectByExample(example);
+            Condition<Country> example = Condition.builder(Country.class).build();
+            List<Country> countries = mapper.selectByCondition(example);
             Assert.assertEquals(183, countries.size());
 
             // 下面的查询会有缓存
-            Example example0 = Example.builder(Country.class)
+            Condition<Country> example0 = Condition.builder(Country.class)
                     .select().build();
-            List<Country> countries0 = mapper.selectByExample(example0);
+            List<Country> countries0 = mapper.selectByCondition(example0);
             Assert.assertEquals(183, countries0.size());
         } finally {
             sqlSession.close();
@@ -43,16 +43,16 @@ public class TestExampleBuilder {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = Example.builder(Country.class)
+            Condition<Country> example = Condition.builder(Country.class)
                     .distinct()
                     .build();
-            List<Country> countries = mapper.selectByExample(example);
+            List<Country> countries = mapper.selectByCondition(example);
             Assert.assertEquals(183, countries.size());
 
             // distinct和order by冲突问题
-            Example example0 = Example.builder(Country.class)
+            Condition<Country> example0 = Condition.builder(Country.class)
                     .selectDistinct("id", "countryname").build();
-            List<Country> countries0 = mapper.selectByExample(example0);
+            List<Country> countries0 = mapper.selectByCondition(example0);
             Assert.assertEquals(183, countries0.size());
         } finally {
             sqlSession.close();
@@ -64,13 +64,13 @@ public class TestExampleBuilder {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = Example.builder(Country.class)
+            Condition example = Condition.builder(Country.class)
                     .select("countryname")
                     .where(Sqls.custom().andGreaterThan("id", 100))
                     .orderByAsc("countrycode")
                     .forUpdate()
                     .build();
-            List<Country> countries = mapper.selectByExample(example);
+            List<Country> countries = mapper.selectByCondition(example);
             Assert.assertEquals(83, countries.size());
         } finally {
             sqlSession.close();
@@ -82,10 +82,10 @@ public class TestExampleBuilder {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = Example.builder(Country.class)
+            Condition example = Condition.builder(Country.class)
                     .where(Sqls.custom().andEqualTo("id", "35"))
                     .build();
-            List<Country> countries = mapper.selectByExample(example);
+            List<Country> countries = mapper.selectByCondition(example);
             Country country = countries.get(0);
             Assert.assertEquals(Integer.valueOf(35), country.getId());
             Assert.assertEquals("China", country.getCountryname());
@@ -101,10 +101,10 @@ public class TestExampleBuilder {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = Example.builder(Country.class)
+            Condition example = Condition.builder(Country.class)
                     .where(Sqls.custom().andBetween("id", 34, 35))
                     .build();
-            List<Country> countries = mapper.selectByExample(example);
+            List<Country> countries = mapper.selectByCondition(example);
             Country country35 = countries.get(0);
             Assert.assertEquals(Integer.valueOf(35), country35.getId());
             Assert.assertEquals("China", country35.getCountryname());
@@ -125,10 +125,10 @@ public class TestExampleBuilder {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = Example.builder(Country.class)
+            Condition example = Condition.builder(Country.class)
                     .where(Sqls.custom().andIn("id", new ArrayList<Integer>(Arrays.asList(35, 183))))
                     .build();
-            List<Country> countries = mapper.selectByExample(example);
+            List<Country> countries = mapper.selectByCondition(example);
             Country country35 = countries.get(1);
             Assert.assertEquals(Integer.valueOf(35), country35.getId());
             Assert.assertEquals("China", country35.getCountryname());
@@ -153,8 +153,8 @@ public class TestExampleBuilder {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            List<Country> countries = mapper.selectByExample(
-                    Example.builder(Country.class)
+            List<Country> countries = mapper.selectByCondition(
+                    Condition.builder(Country.class)
                             .where(Sqls.custom()
                                     .andEqualTo("countryname", "China")
                                     .andEqualTo("id", 35)
@@ -190,14 +190,14 @@ public class TestExampleBuilder {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = Example.builder(Country.class)
+            Condition example = Condition.builder(Country.class)
                     .where(Sqls.custom()
                             .andBetween("id", 35, 50)
                             .orLessThan("id", 40)
                             .orIsNull("countryname")
                     )
                     .build();
-            List<Country> countries = mapper.selectByExample(example);
+            List<Country> countries = mapper.selectByCondition(example);
             Assert.assertEquals(50, countries.size());
         } finally {
             sqlSession.close();
@@ -212,7 +212,7 @@ public class TestExampleBuilder {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = Example.builder(Country.class)
+            Condition example = Condition.builder(Country.class)
                     .where(Sqls.custom()
                             .andEqualTo("countryname", "China")
                             .andEqualTo("id", 35)
@@ -221,7 +221,7 @@ public class TestExampleBuilder {
                             .andEqualTo("id", 183)
                     )
                     .build();
-            List<Country> countries = mapper.selectByExample(example);
+            List<Country> countries = mapper.selectByCondition(example);
             Assert.assertEquals(0, countries.size());
 
         } finally {
@@ -237,7 +237,7 @@ public class TestExampleBuilder {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = Example.builder(Country.class)
+            Condition example = Condition.builder(Country.class)
                     .where(Sqls.custom()
                             .andEqualTo("countryname", "China")
                             .andEqualTo("id", 35)
@@ -246,7 +246,7 @@ public class TestExampleBuilder {
                             .andEqualTo("id", 183)
                     )
                     .build();
-            List<Country> countries = mapper.selectByExample(example);
+            List<Country> countries = mapper.selectByCondition(example);
             Assert.assertEquals(2, countries.size());
 
         } finally {
@@ -262,7 +262,7 @@ public class TestExampleBuilder {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = Example.builder(Country.class)
+            Condition example = Condition.builder(Country.class)
                     .selectDistinct()
                     .where(Sqls.custom()
                             .andEqualTo("countryname", "China")
@@ -283,7 +283,7 @@ public class TestExampleBuilder {
                     .orderByDesc("countrycode")
                     .forUpdate()
                     .build();
-            List<Country> countries = mapper.selectByExample(example);
+            List<Country> countries = mapper.selectByCondition(example);
             Assert.assertEquals(35, countries.size());
 
         } finally {
@@ -300,11 +300,11 @@ public class TestExampleBuilder {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = Example.builder(Country.class)
+            Condition example = Condition.builder(Country.class)
                     .where(Sqls.custom().andBetween("id", 50, 55))
                     .orderBy("id").orderByAsc("countryname").orderByDesc("countrycode")
                     .build();
-            List<Country> countries = mapper.selectByExample(example);
+            List<Country> countries = mapper.selectByCondition(example);
             for (Country country : countries) {
                 System.out.println(country.getId() + " " + country.getCountryname() + " " + country.getCountrycode());
             }

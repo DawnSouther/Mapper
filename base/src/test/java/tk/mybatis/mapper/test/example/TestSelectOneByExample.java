@@ -28,7 +28,7 @@ import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
-import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.mapper.CountryMapper;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.model.Country;
@@ -43,10 +43,10 @@ public class TestSelectOneByExample {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = new Example(Country.class);
+            Condition example = new Condition(Country.class);
             example.createCriteria().andGreaterThan("id", 100).andLessThan("id", 151);
             example.or().andLessThan("id", 41);
-            mapper.selectOneByExample(example);
+            mapper.selectOneByCondition(example);
         } finally {
             sqlSession.close();
         }
@@ -57,9 +57,9 @@ public class TestSelectOneByExample {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Example example = new Example(Country.class);
+            Condition example = new Condition(Country.class);
             example.createCriteria().andGreaterThan("id", 100).andLessThan("id", 102);
-            Country country = mapper.selectOneByExample(example);
+            Country country = mapper.selectOneByCondition(example);
             Assert.assertNotNull(country);
             Assert.assertEquals(new Integer(101), country.getId());
         } finally {

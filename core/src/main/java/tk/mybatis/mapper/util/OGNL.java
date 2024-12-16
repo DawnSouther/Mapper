@@ -27,7 +27,7 @@ package tk.mybatis.mapper.util;
 import tk.mybatis.mapper.MapperException;
 import tk.mybatis.mapper.annotation.LogicDelete;
 import tk.mybatis.mapper.entity.EntityColumn;
-import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.entity.IDynamicTableName;
 import tk.mybatis.mapper.mapperhelper.EntityHelper;
 import tk.mybatis.mapper.mapperhelper.SqlHelper;
@@ -52,8 +52,8 @@ public abstract class OGNL {
      * @return
      */
     public static boolean checkExampleEntityClass(Object parameter, String entityFullName) {
-        if (parameter != null && parameter instanceof Example && StringUtil.isNotEmpty(entityFullName)) {
-            Example example = (Example) parameter;
+        if (parameter != null && parameter instanceof Condition && StringUtil.isNotEmpty(entityFullName)) {
+            Condition example = (Condition) parameter;
             Class<?> entityClass = example.getEntityClass();
             if (!entityClass.getName().equals(entityFullName)) {
                 throw new MapperException("当前 Example 方法对应实体为:" + entityFullName
@@ -113,8 +113,8 @@ public abstract class OGNL {
     public static boolean exampleHasAtLeastOneCriteriaCheck(Object parameter) {
         if (parameter != null) {
             try {
-                if (parameter instanceof Example) {
-                    List<Example.Criteria> criteriaList = ((Example) parameter).getOredCriteria();
+                if (parameter instanceof Condition) {
+                    List<Condition.Criteria> criteriaList = ((Condition) parameter).getOredCriteria();
                     if (criteriaList != null && criteriaList.size() > 0) {
                         return true;
                     }
@@ -139,8 +139,8 @@ public abstract class OGNL {
      * @return
      */
     public static boolean hasSelectColumns(Object parameter) {
-        if (parameter != null && parameter instanceof Example) {
-            Example example = (Example) parameter;
+        if (parameter != null && parameter instanceof Condition) {
+            Condition example = (Condition) parameter;
             if (example.getSelectColumns() != null && example.getSelectColumns().size() > 0) {
                 return true;
             }
@@ -155,8 +155,8 @@ public abstract class OGNL {
      * @return
      */
     public static boolean hasCountColumn(Object parameter) {
-        if (parameter != null && parameter instanceof Example) {
-            Example example = (Example) parameter;
+        if (parameter != null && parameter instanceof Condition) {
+            Condition example = (Condition) parameter;
             return StringUtil.isNotEmpty(example.getCountColumn());
         }
         return false;
@@ -169,8 +169,8 @@ public abstract class OGNL {
      * @return
      */
     public static boolean hasForUpdate(Object parameter) {
-        if (parameter != null && parameter instanceof Example) {
-            Example example = (Example) parameter;
+        if (parameter != null && parameter instanceof Condition) {
+            Condition example = (Condition) parameter;
             return example.isForUpdate();
         }
         return false;
@@ -216,10 +216,10 @@ public abstract class OGNL {
      * @return
      */
     public static String andOr(Object parameter) {
-        if (parameter instanceof Example.Criteria) {
-            return ((Example.Criteria) parameter).getAndOr();
-        } else if (parameter instanceof Example.Criterion) {
-            return ((Example.Criterion) parameter).getAndOr();
+        if (parameter instanceof Condition.Criteria) {
+            return ((Condition.Criteria) parameter).getAndOr();
+        } else if (parameter instanceof Condition.Criterion) {
+            return ((Condition.Criterion) parameter).getAndOr();
         } else if (parameter.getClass().getName().endsWith("Criteria")) {
             return "or";
         } else {
@@ -235,8 +235,8 @@ public abstract class OGNL {
      */
     public static String andNotLogicDelete(Object parameter) {
         String result = "";
-        if (parameter instanceof Example) {
-            Example example = (Example) parameter;
+        if (parameter instanceof Condition) {
+            Condition example = (Condition) parameter;
             Map<String, EntityColumn> propertyMap = example.getPropertyMap();
 
             for (Map.Entry<String, EntityColumn> entry : propertyMap.entrySet()) {
@@ -267,11 +267,11 @@ public abstract class OGNL {
      * @param example
      * @return
      */
-    private static <T> boolean hasWhereCause(Example<T> example) {
+    private static <T> boolean hasWhereCause(Condition<T> example) {
         if (example.getOredCriteria() == null || example.getOredCriteria().size() == 0) {
             return false;
         }
-        for (Example.Criteria<T> oredCriterion : example.getOredCriteria()) {
+        for (Condition.Criteria<T> oredCriterion : example.getOredCriteria()) {
             if (oredCriterion.getAllCriteria().size() != 0) {
                 return true;
             }

@@ -3,7 +3,7 @@ package tk.mybatis.mapper.test.logic;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.Assert;
 import org.junit.Test;
-import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.mapper.MybatisHelper;
 import tk.mybatis.mapper.mapper.TbUserLogicDeleteMapper;
 import tk.mybatis.mapper.mapper.TbUserMapper;
@@ -82,10 +82,10 @@ public class TestLogicDelete {
             TbUserLogicDeleteMapper logicDeleteMapper = sqlSession.getMapper(TbUserLogicDeleteMapper.class);
             TbUserMapper mapper = sqlSession.getMapper(TbUserMapper.class);
 
-            Example example = new Example(TbUserLogicDelete.class);
+            Condition example = new Condition(TbUserLogicDelete.class);
             example.createCriteria().andEqualTo("id", 1);
 
-            logicDeleteMapper.deleteByExample(example);
+            logicDeleteMapper.deleteByCondition(example);
             Assert.assertFalse(logicDeleteMapper.existsWithId(1));
 
             Assert.assertTrue(mapper.existsWithId(1));
@@ -302,12 +302,12 @@ public class TestLogicDelete {
         try {
             TbUserLogicDeleteMapper logicDeleteMapper = sqlSession.getMapper(TbUserLogicDeleteMapper.class);
 
-            Example example = new Example(TbUserLogicDelete.class);
+            Condition example = new Condition(TbUserLogicDelete.class);
             example.createCriteria().andEqualTo("id", 9);
-            Assert.assertEquals(0, logicDeleteMapper.selectByExample(example).size());
+            Assert.assertEquals(0, logicDeleteMapper.selectByCondition(example).size());
 
             example.or().andEqualTo("username", "test");
-            Assert.assertEquals(1, logicDeleteMapper.selectByExample(example).size());
+            Assert.assertEquals(1, logicDeleteMapper.selectByCondition(example).size());
 
 
         } finally {
@@ -323,14 +323,14 @@ public class TestLogicDelete {
             TbUserLogicDeleteMapper logicDeleteMapper = sqlSession.getMapper(TbUserLogicDeleteMapper.class);
 
             // username为test的有两条  一条标记为已删除
-            Example example = new Example(TbUserLogicDelete.class);
+            Condition example = new Condition(TbUserLogicDelete.class);
             example.createCriteria().andEqualTo("username", "test");
-            Assert.assertEquals(1, logicDeleteMapper.selectByExample(example).size());
+            Assert.assertEquals(1, logicDeleteMapper.selectByCondition(example).size());
 
             // password为dddd的已删除  username为test2的未删除
             example.or().andEqualTo("password", "dddd").orEqualTo("username", "test2");
 
-            Assert.assertEquals(2, logicDeleteMapper.selectByExample(example).size());
+            Assert.assertEquals(2, logicDeleteMapper.selectByCondition(example).size());
         } finally {
             sqlSession.rollback();
             sqlSession.close();
@@ -344,16 +344,16 @@ public class TestLogicDelete {
             TbUserLogicDeleteMapper logicDeleteMapper = sqlSession.getMapper(TbUserLogicDeleteMapper.class);
 
             // username为test的有两条  一条标记为已删除
-            Example example = new Example(TbUserLogicDelete.class);
+            Condition example = new Condition(TbUserLogicDelete.class);
             example.createCriteria().andEqualTo("username", "test");
 
             TbUserLogicDelete tbUserLogicDelete = new TbUserLogicDelete();
             tbUserLogicDelete.setUsername("123");
-            logicDeleteMapper.updateByExample(tbUserLogicDelete, example);
+            logicDeleteMapper.updateByCondition(tbUserLogicDelete, example);
 
             example.clear();
             example.createCriteria().andEqualTo("username", "123");
-            List<TbUserLogicDelete> list = logicDeleteMapper.selectByExample(example);
+            List<TbUserLogicDelete> list = logicDeleteMapper.selectByCondition(example);
             Assert.assertEquals(1, list.size());
 
             Assert.assertNull(list.get(0).getPassword());
@@ -369,16 +369,16 @@ public class TestLogicDelete {
         try {
             TbUserLogicDeleteMapper logicDeleteMapper = sqlSession.getMapper(TbUserLogicDeleteMapper.class);
 
-            Example example = new Example(TbUserLogicDelete.class);
+            Condition example = new Condition(TbUserLogicDelete.class);
             example.createCriteria().andEqualTo("username", "test");
 
             TbUserLogicDelete tbUserLogicDelete = new TbUserLogicDelete();
             tbUserLogicDelete.setUsername("123");
-            logicDeleteMapper.updateByExampleSelective(tbUserLogicDelete, example);
+            logicDeleteMapper.updateByConditionSelective(tbUserLogicDelete, example);
 
             example.clear();
             example.createCriteria().andEqualTo("username", "123");
-            List<TbUserLogicDelete> list = logicDeleteMapper.selectByExample(example);
+            List<TbUserLogicDelete> list = logicDeleteMapper.selectByCondition(example);
             Assert.assertEquals(1, list.size());
 
             Assert.assertEquals("gggg", list.get(0).getPassword());
@@ -395,16 +395,16 @@ public class TestLogicDelete {
         try {
             TbUserLogicDeleteMapper logicDeleteMapper = sqlSession.getMapper(TbUserLogicDeleteMapper.class);
 
-            Example example = new Example(TbUserLogicDelete.class);
+            Condition example = new Condition(TbUserLogicDelete.class);
 
             TbUserLogicDelete tbUserLogicDelete = new TbUserLogicDelete();
             tbUserLogicDelete.setUsername("123");
 
-            Assert.assertEquals(5, logicDeleteMapper.updateByExample(tbUserLogicDelete, example));
+            Assert.assertEquals(5, logicDeleteMapper.updateByCondition(tbUserLogicDelete, example));
 
-            Assert.assertEquals(5, logicDeleteMapper.updateByExampleSelective(tbUserLogicDelete, example));
+            Assert.assertEquals(5, logicDeleteMapper.updateByConditionSelective(tbUserLogicDelete, example));
 
-            List<TbUserLogicDelete> list = logicDeleteMapper.selectByExample(example);
+            List<TbUserLogicDelete> list = logicDeleteMapper.selectByCondition(example);
             Assert.assertEquals(5, list.size());
         } finally {
             sqlSession.rollback();

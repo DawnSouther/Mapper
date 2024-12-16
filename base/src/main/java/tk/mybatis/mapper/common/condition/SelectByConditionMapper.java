@@ -25,26 +25,29 @@
 package tk.mybatis.mapper.common.condition;
 
 import org.apache.ibatis.annotations.SelectProvider;
+
+import tk.mybatis.mapper.annotation.RegisterMapper;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.provider.ConditionProvider;
 
 import java.util.List;
 
 /**
- * 通用Mapper接口,Condition查询
+ * 通用Mapper接口,Example查询
  *
  * @param <T> 不能为空
  * @author liuzh
  */
-@tk.mybatis.mapper.annotation.RegisterMapper
+@RegisterMapper
 public interface SelectByConditionMapper<T> {
 
     /**
-     * 根据Condition条件进行查询
+     * 根据Example条件进行查询
      *
-     * @param condition
+     * @param example
      * @return
      */
     @SelectProvider(type = ConditionProvider.class, method = "dynamicSQL")
-    List<T> selectByCondition(Object condition);
+    List<T> selectByCondition(Condition<T> example);
 
 }

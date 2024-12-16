@@ -22,13 +22,12 @@
  * THE SOFTWARE.
  */
 
-package tk.mybatis.mapper.common.example;
+package tk.mybatis.mapper.common.condition;
 
 import org.apache.ibatis.annotations.SelectProvider;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.provider.ExampleProvider;
 
-import java.util.List;
+import tk.mybatis.mapper.entity.Condition;
+import tk.mybatis.mapper.provider.ConditionProvider;
 
 /**
  * 通用Mapper接口,Example查询
@@ -37,7 +36,7 @@ import java.util.List;
  * @author liuzh
  */
 @tk.mybatis.mapper.annotation.RegisterMapper
-public interface SelectByExampleMapper<T> {
+public interface SelectOneByConditionMapper<T> {
 
     /**
      * 根据Example条件进行查询
@@ -45,7 +44,7 @@ public interface SelectByExampleMapper<T> {
      * @param example
      * @return
      */
-    @SelectProvider(type = ExampleProvider.class, method = "dynamicSQL")
-    List<T> selectByExample(Example<T> example);
+    @SelectProvider(type = ConditionProvider.class, method = "dynamicSQL")
+    T selectOneByCondition(Condition<T> example);
 
 }

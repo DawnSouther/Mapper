@@ -39,7 +39,7 @@ import tk.mybatis.mapper.annotation.RegisterMapper;
 @RegisterMapper
 public interface Mapper<T> extends
         BaseMapper<T>,
-        ExampleMapper<T>,
+        ConditionMapper<T>,
         RowBoundsMapper<T>,
         SaveMapper<T>,
         Marker {

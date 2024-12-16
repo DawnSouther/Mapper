@@ -8,7 +8,7 @@ import org.noear.solon.test.SolonTest;
 import org.noear.solon.test.annotation.Rollback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.solon.test.TkMapperTest;
 import tk.mybatis.solon.test.entity.User;
 import tk.mybatis.solon.test.mapper.UserMapper;
@@ -51,9 +51,9 @@ public class TkMapperServiceTest {
      */
     @Test
     public void exampleQuery() {
-        Example<User> example = new Example<>(User.class);
+        Condition<User> example = new Condition<>(User.class);
         example.and().andLike("name", "%张%");
-        userMapper.selectByExample(example).forEach(u -> log.info(u.toString()));
+        userMapper.selectByCondition(example).forEach(u -> log.info(u.toString()));
     }
 
     /**

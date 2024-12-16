@@ -7,7 +7,7 @@ import tk.mybatis.mapper.base.BaseTest;
 import tk.mybatis.mapper.base.Country;
 import tk.mybatis.mapper.base.CountryMapper;
 import tk.mybatis.mapper.entity.Config;
-import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Condition;
 
 public class SafeUpdateByMethodTest extends BaseTest {
 
@@ -25,7 +25,7 @@ public class SafeUpdateByMethodTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.updateByExample(new Country(), new Example(Country.class));
+            mapper.updateByCondition(new Country(), new Condition(Country.class));
         } finally {
             sqlSession.close();
         }
@@ -36,7 +36,7 @@ public class SafeUpdateByMethodTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.updateByExample(new Country(), null);
+            mapper.updateByCondition(new Country(), null);
         } finally {
             sqlSession.close();
         }
@@ -47,7 +47,7 @@ public class SafeUpdateByMethodTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.updateByExample(null, null);
+            mapper.updateByCondition(null, null);
         } finally {
             sqlSession.close();
         }
@@ -58,7 +58,7 @@ public class SafeUpdateByMethodTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.updateByExampleSelective(new Country(), new Example(Country.class));
+            mapper.updateByConditionSelective(new Country(), new Condition<>(Country.class));
         } finally {
             sqlSession.close();
         }
@@ -69,7 +69,7 @@ public class SafeUpdateByMethodTest extends BaseTest {
         SqlSession sqlSession = getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            mapper.updateByExampleSelective(new Country(), null);
+            mapper.updateByConditionSelective(new Country(), null);
         } finally {
             sqlSession.close();
         }

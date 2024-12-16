@@ -25,11 +25,13 @@
 package tk.mybatis.mapper.common.condition;
 
 import org.apache.ibatis.annotations.DeleteProvider;
+
 import tk.mybatis.mapper.annotation.RegisterMapper;
+import tk.mybatis.mapper.entity.Condition;
 import tk.mybatis.mapper.provider.ConditionProvider;
 
 /**
- * 通用Mapper接口,Condition查询
+ * 通用Mapper接口,Example查询
  *
  * @param <T> 不能为空
  * @author liuzh
@@ -38,12 +40,12 @@ import tk.mybatis.mapper.provider.ConditionProvider;
 public interface DeleteByConditionMapper<T> {
 
     /**
-     * 根据Condition条件删除数据
+     * 根据Example条件删除数据
      *
-     * @param condition
+     * @param example
      * @return
      */
     @DeleteProvider(type = ConditionProvider.class, method = "dynamicSQL")
-    int deleteByCondition(Object condition);
+    int deleteByCondition(Condition<T> example);
 
 }

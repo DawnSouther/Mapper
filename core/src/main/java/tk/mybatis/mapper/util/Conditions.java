@@ -15,7 +15,7 @@
  */
 package tk.mybatis.mapper.util;
 
-import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.entity.Condition;
 
 
 /**
@@ -23,9 +23,9 @@ import tk.mybatis.mapper.entity.Example;
  *
  * @author Caratacus
  */
-public final class Wrappers {
+public final class Conditions {
 
-    private Wrappers() {
+    private Conditions() {
         // ignore
     }
 
@@ -35,8 +35,8 @@ public final class Wrappers {
      * @param <T> 实体类泛型
      * @return QueryWrapper&lt;T&gt;
      */
-    public static <T> Example<T> query() {
-        return new Example<>(null);
+    public static <T> Condition<T> query() {
+        return new Condition<>(null);
     }
 
     /**
@@ -46,8 +46,8 @@ public final class Wrappers {
      * @param <T>    实体类泛型
      * @return QueryWrapper&lt;T&gt;
      */
-    public static <T> Example<T> query(Class<T> entityClass) {
-        return new Example<>(entityClass);
+    public static <T> Condition<T> query(Class<T> entityClass) {
+        return new Condition<>(entityClass);
     }
 
 }
