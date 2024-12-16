@@ -27,11 +27,13 @@ package tk.mybatis.mapper.model;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.io.Serializable;
+
 
 /**
  * Created by liuzh on 2014/11/21.
  */
-public class UserLogin2Key {
+public class UserLogin2Key implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer logid;

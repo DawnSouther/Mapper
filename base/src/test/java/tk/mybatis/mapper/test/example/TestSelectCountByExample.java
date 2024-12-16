@@ -43,7 +43,7 @@ public class TestSelectCountByExample {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Condition example = new Condition(Country.class);
+            Condition<Country> example = new Condition<>(Country.class);
             example.setCountProperty("id");
             example.createCriteria().andGreaterThan("id", 100);
             int count = mapper.selectCountByCondition(example);
@@ -59,7 +59,7 @@ public class TestSelectCountByExample {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Condition example = new Condition(Country.class);
+            Condition<Country> example = new Condition<>(Country.class);
             example.setForUpdate(true);
             example.createCriteria().andGreaterThan("id", 100);
             int count = mapper.selectCountByCondition(example);
@@ -75,7 +75,7 @@ public class TestSelectCountByExample {
         SqlSession sqlSession = MybatisHelper.getSqlSession();
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
-            Condition example = new Condition(Country.class);
+            Condition<Country> example = new Condition<>(Country.class);
             example.createCriteria().andLike("countryname", "A%");
             example.or().andGreaterThan("id", 100);
             example.setDistinct(true);

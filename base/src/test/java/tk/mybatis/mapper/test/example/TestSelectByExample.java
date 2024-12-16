@@ -71,7 +71,7 @@ public class TestSelectByExample {
         try {
             CountryMapper mapper = sqlSession.getMapper(CountryMapper.class);
             Condition<Country> example = new Condition<>(Country.class);
-            example.createCriteria().andGreaterThan("id", 100);
+            example.createCriteria().andGreaterThan("id2", 100);
             mapper.selectByCondition(example);
         } finally {
             sqlSession.close();

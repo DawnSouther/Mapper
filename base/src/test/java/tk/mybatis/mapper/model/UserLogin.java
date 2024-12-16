@@ -28,11 +28,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.util.Date;
+import java.io.Serializable;
 
 /**
  * Created by liuzh on 2014/11/21.
  */
-public class UserLogin {
+public class UserLogin implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer logid;
