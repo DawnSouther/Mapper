@@ -1,7 +1,7 @@
 # MyBatis通用Mapper3
 
 [![Build Status](https://travis-ci.org/abel533/Mapper.svg?branch=master)](https://travis-ci.org/abel533/Mapper)
-[![Maven central](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper/badge.svg)](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper)
+[![Maven central](https://maven-badges.herokuapp.com/maven-central/cn.lm.mybatis/mapper/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.lm.mybatis/mapper)
 [![Dependency Status](https://www.versioneye.com/user/projects/593212c722f278006540a1d1/badge.svg?style=flat)](https://www.versioneye.com/user/projects/593212c722f278006540a1d1)
 
 通用Mapper都可以极大的方便开发人员。可以随意的按照自己的需要选择通用方法，还可以很方便的开发自己的通用方法。
@@ -122,7 +122,7 @@ Country代码：
 
 ```xml
 <dependency>
-    <groupId>tk.mybatis</groupId>
+    <groupId>cn.0moe</groupId>
     <artifactId>mapper</artifactId>
     <version>最新版本</version>
 </dependency>
@@ -133,7 +133,7 @@ Country代码：
 ```xml
 <!--mapper-->
 <dependency>
-    <groupId>tk.mybatis</groupId>
+    <groupId>cn.0moe</groupId>
     <artifactId>mapper-spring-boot-starter</artifactId>
     <version>最新版本</version>
 </dependency>
@@ -143,9 +143,9 @@ Country代码：
 
 ## 引入 Jar 包，下载地址：
 
-https://oss.sonatype.org/content/repositories/releases/tk/mybatis/mapper
+https://oss.sonatype.org/content/repositories/releases/cn.lm/mybatis/mapper
 
-http://repo1.maven.org/maven2/tk/mybatis/mapper
+http://repo1.maven.org/maven2/cn.lm/mybatis/mapper
 
 由于通用Mapper依赖JPA，所以还需要下载persistence-api-1.0.jar：
 

@@ -26,7 +26,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>tk.mybatis</groupId>
+        <groupId>cn.0moe</groupId>
         <artifactId>mapper-all</artifactId>
         <version>${revision}</version>
     </parent>
@@ -43,33 +43,23 @@
             <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>tk.mybatis</groupId>
+            <groupId>cn.0moe</groupId>
             <artifactId>mapper-core</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>tk.mybatis</groupId>
+            <groupId>cn.0moe</groupId>
             <artifactId>mapper-base</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>tk.mybatis</groupId>
+            <groupId>cn.0moe</groupId>
             <artifactId>mapper-extra</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>tk.mybatis</groupId>
+            <groupId>cn.0moe</groupId>
             <artifactId>mapper-spring</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>tk.mybatis</groupId>
-            <artifactId>mapper-weekend</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>tk.mybatis</groupId>
-            <artifactId>mapper-generator</artifactId>
             <optional>true</optional>
         </dependency>
     </dependencies>
@@ -91,12 +81,12 @@
                             <createSourcesJar>true</createSourcesJar>
                             <artifactSet>
                                 <includes>
-                                    <include>tk.mybatis:mapper-core</include>
-                                    <include>tk.mybatis:mapper-base</include>
-                                    <include>tk.mybatis:mapper-extra</include>
-                                    <include>tk.mybatis:mapper-spring</include>
-                                    <include>tk.mybatis:mapper-weekend</include>
-                                    <include>tk.mybatis:mapper-generator</include>
+                                    <include>cn.lm.mybatis:mapper-core</include>
+                                    <include>cn.lm.mybatis:mapper-base</include>
+                                    <include>cn.lm.mybatis:mapper-extra</include>
+                                    <include>cn.lm.mybatis:mapper-spring</include>
+                                    <include>cn.lm.mybatis:mapper-weekend</include>
+                                    <include>cn.lm.mybatis:mapper-generator</include>
                                 </includes>
                             </artifactSet>
                         </configuration>

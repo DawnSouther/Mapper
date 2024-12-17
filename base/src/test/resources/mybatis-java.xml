@@ -36,7 +36,7 @@
     </settings>
 
     <typeAliases>
-        <package name="tk.mybatis.mapper.model"/>
+        <package name="cn.lm.mybatis.mapper.model"/>
     </typeAliases>
 
     <environments default="development">
@@ -62,21 +62,21 @@
 
     <mappers>
         <mapper resource="CachedCountryMapper.xml"/>
-        <mapper class="tk.mybatis.mapper.mapper.CountryMultipleMapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.CountryMapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.Country2Mapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.CountryTMapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.CountryJDBCMapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.CountryIMapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.UserInfoMapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.UserInfoAbleMapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.UserInfoMapMapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.UserLoginMapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.UserLogin2Mapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.JDBCMapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.CountryVersionMapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.TbUserMapper"/>
-        <mapper class="tk.mybatis.mapper.mapper.TbUserLogicDeleteMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.CountryMultipleMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.CountryMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.Country2Mapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.CountryTMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.CountryJDBCMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.CountryIMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.UserInfoMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.UserInfoAbleMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.UserInfoMapMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.UserLoginMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.UserLogin2Mapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.JDBCMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.CountryVersionMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.TbUserMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.mapper.TbUserLogicDeleteMapper"/>
 
     </mappers>
 

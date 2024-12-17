@@ -27,7 +27,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>tk.mybatis</groupId>
+        <groupId>cn.0moe</groupId>
         <artifactId>mapper-spring-boot</artifactId>
         <version>${revision}</version>
     </parent>
@@ -36,7 +36,7 @@
     <name>mapper-spring-boot-samples</name>
     <modules>
         <module>mapper-spring-boot-sample-annotation</module>
-        <module>mapper-spring-boot-sample-xml</module>
+        <!--<module>mapper-spring-boot-sample-xml</module>-->
     </modules>
     <dependencyManagement>
         <dependencies>

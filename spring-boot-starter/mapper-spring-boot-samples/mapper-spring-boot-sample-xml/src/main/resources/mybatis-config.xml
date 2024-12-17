@@ -28,9 +28,9 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <package name="tk.mybatis.sample.domain"/>
+        <package name="cn.lm.mybatis.sample.domain"/>
     </typeAliases>
     <mappers>
-        <mapper resource="tk/mybatis/sample/mapper/CountryMapper.xml"/>
+        <mapper resource="cn.lm/mybatis/sample/mapper/CountryMapper.xml"/>
     </mappers>
 </configuration>

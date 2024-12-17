@@ -26,7 +26,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>tk.mybatis</groupId>
+        <groupId>cn.0moe</groupId>
         <artifactId>mapper-modules</artifactId>
         <version>${revision}</version>
     </parent>
@@ -44,37 +44,37 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-core</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-base</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-extra</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-spring</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-weekend</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-generator</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>

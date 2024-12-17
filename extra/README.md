@@ -1,6 +1,6 @@
 # Mybatis 通用 Mapper 扩展方法
 
-[![Maven central](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper-extra/badge.svg)](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper-extra)
+[![Maven central](https://maven-badges.herokuapp.com/maven-central/cn.lm.mybatis/mapper-extra/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.lm.mybatis/mapper-extra)
 
 ## 扩展方法介绍
 
@@ -10,12 +10,12 @@
 
 - 支持批量插入的数据库都可以使用，例如 mysql,h2 等
 
-  `tk.mybatis.mapper.additional.insert.InsertListMapper`
+  `cn.lm.mybatis.mapper.additional.insert.InsertListMapper`
 
   SQL 形如 `insert table(xxx) values (xxx), (xxx) ...`
 
 - Oracle特殊批量插入
-  `tk.mybatis.mapper.additional.dialect.oracle.InsertListMapper`
+  `cn.lm.mybatis.mapper.additional.dialect.oracle.InsertListMapper`
 
   SQL 形如
     ```sql

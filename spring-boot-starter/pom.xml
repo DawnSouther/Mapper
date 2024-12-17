@@ -27,7 +27,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>tk.mybatis</groupId>
+        <groupId>cn.0moe</groupId>
         <artifactId>mapper-modules</artifactId>
         <version>${revision}</version>
     </parent>
@@ -46,7 +46,7 @@
 
     <properties>
         <mybatis-spring.version>3.0.4</mybatis-spring.version>
-        <spring-boot.version>3.3.2</spring-boot.version>
+        <spring-boot.version>3.4.0</spring-boot.version>
     </properties>
 
     <repositories>
@@ -77,27 +77,27 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-base</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-weekend</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-spring</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-extra</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -107,12 +107,12 @@
                 <version>${mybatis-spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-spring-boot-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>tk.mybatis</groupId>
+                <groupId>cn.0moe</groupId>
                 <artifactId>mapper-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>

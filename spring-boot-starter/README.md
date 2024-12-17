@@ -1,6 +1,6 @@
 # MyBatis Mapper integration with Spring Boot
 
-[![Maven central](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper-spring-boot-starter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper-spring-boot-starter)
+[![Maven central](https://maven-badges.herokuapp.com/maven-central/cn.lm.mybatis/mapper-spring-boot-starter/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.lm.mybatis/mapper-spring-boot-starter)
 
 Mapper-Spring-Boot-Starter 帮助你集成通用 Mapper 到 Spring Boot。
 
@@ -14,7 +14,7 @@ Add the following dependency to your pom.xml:
 
 ```xml
 <dependency>
-    <groupId>tk.mybatis</groupId>
+    <groupId>cn.0moe</groupId>
     <artifactId>mapper-spring-boot-starter</artifactId>
     <version>1.2.3</version>
 </dependency>
@@ -22,8 +22,8 @@ Add the following dependency to your pom.xml:
 
 ## 1.2.3 - 2018-01-24
 
-- 增加 `tk.mybatis.spring.mapper.SpringBootBindUtil`，使用原生方式兼容 Spring Boot 1.x 和 2.x 版本，已经不存在 relax 值问题，以前的配置不需要修改即可使用。
-- 特别注意，如果使用了 `@MapperScan` 注解，请使用 `tk.mybatis.spring.annotation.MapperScan` 注解。
+- 增加 `cn.lm.mybatis.spring.mapper.SpringBootBindUtil`，使用原生方式兼容 Spring Boot 1.x 和 2.x 版本，已经不存在 relax 值问题，以前的配置不需要修改即可使用。
+- 特别注意，如果使用了 `@MapperScan` 注解，请使用 `cn.lm.mybatis.spring.annotation.MapperScan` 注解。
 - 通用 Mapper 升级到 3.5.2 版本。
 
 ## 1.2.2
@@ -44,7 +44,7 @@ Add the following dependency to your pom.xml:
 - 去掉 mybatis-spring-boot-starter 依赖，不在使用 mybatis 官方 starter，使用通用 Mapper 时不要再引入官方 starter
 - 参考 mybatis 官方 starter 重新实现，解决 mapper
   初始化可能存在的问题 [pr#5 by fengcbo](https://github.com/abel533/mapper-boot-starter/pull/5)
-- 如果需要使用 `@MapperScan` 请选择 tk 开头的 `tk.mybatis.spring.annotation.MapperScan`
+- 如果需要使用 `@MapperScan` 请选择 cn.lm 开头的 `cn.lm.mybatis.spring.annotation.MapperScan`
 
 ## 1.1.7 - 2017-12-17
 
@@ -112,11 +112,11 @@ mapper.propertyName=propertyValue
 示例:
 
 ```properties
-mapper.mappers[0]=tk.mybatis.sample.mapper.BaseMapper
-mapper.mappers[1]=tk.mybatis.mapper.common.Mapper
+mapper.mappers[0]=cn.lm.mybatis.sample.mapper.BaseMapper
+mapper.mappers[1]=cn.lm.mybatis.mapper.common.Mapper
 ```
 
-默认情况下，没有 mappers 配置时，会自动注册 `tk.mybatis.mapper.common.Mapper`
+默认情况下，没有 mappers 配置时，会自动注册 `cn.lm.mybatis.mapper.common.Mapper`
 
 因为通用 Mapper 是固定的属性，所以接收参数使用的对象，按照 Spring Boot 配置规则，大写字母都变了带横线的小写字母。针对如 IDENTITY（对应i-d-e-n-t-i-t-y）提供了全小写的 identity 配置，如果
 IDE 能自动提示，看自动提示即可。

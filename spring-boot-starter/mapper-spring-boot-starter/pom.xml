@@ -27,7 +27,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>tk.mybatis</groupId>
+        <groupId>cn.0moe</groupId>
         <artifactId>mapper-spring-boot</artifactId>
         <version>${revision}</version>
     </parent>
@@ -51,27 +51,23 @@
             <artifactId>mybatis-spring</artifactId>
         </dependency>
         <dependency>
-            <groupId>tk.mybatis</groupId>
+            <groupId>cn.0moe</groupId>
             <artifactId>mapper-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>tk.mybatis</groupId>
+            <groupId>cn.0moe</groupId>
             <artifactId>mapper-base</artifactId>
         </dependency>
         <dependency>
-            <groupId>tk.mybatis</groupId>
-            <artifactId>mapper-weekend</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>tk.mybatis</groupId>
+            <groupId>cn.0moe</groupId>
             <artifactId>mapper-spring</artifactId>
         </dependency>
         <dependency>
-            <groupId>tk.mybatis</groupId>
+            <groupId>cn.0moe</groupId>
             <artifactId>mapper-extra</artifactId>
         </dependency>
         <dependency>
-            <groupId>tk.mybatis</groupId>
+            <groupId>cn.0moe</groupId>
             <artifactId>mapper-spring-boot-autoconfigure</artifactId>
         </dependency>
     </dependencies>

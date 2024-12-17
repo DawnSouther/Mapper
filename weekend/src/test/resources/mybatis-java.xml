@@ -62,8 +62,8 @@
     </environments>
 
     <mappers>
-        <mapper class="tk.mybatis.mapper.weekend.mapper.CountryMapper"/>
-        <mapper class="tk.mybatis.mapper.weekend.mapper.UserMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.weekend.mapper.CountryMapper"/>
+        <mapper class="cn.lm.mybatis.mapper.weekend.mapper.UserMapper"/>
     </mappers>
 
 </configuration>

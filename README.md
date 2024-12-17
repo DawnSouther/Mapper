@@ -1,6 +1,19 @@
+# plus融合版
+> 如果你正在寻找一个使用JPA标准注解、支持单表组合查询条件、且轻量的ORM库, 这个版本是一个很好的选择。
+
+本版本做出了如下改动
+1. Example相关方法更名为Condition, 旧Condition相关逻辑均移除
+2. Example移植mybatis-plus中Wrapper的get列名映射写法，同时支持原本的列名字符串写法。
+3. 添加雪花id生成器，默认采样网卡地址作为datacenterId和workerId。
+4. byPrimaryKey名称简化为byId,同时传入参数类型更新为Serializable。
+5. UpdateByPrimaryKeySelectiveForce方法更名为updatePickById，且只更新传入的字段，其余字段均不更新
+6. 移除weekend、generator、solon-plugin模块
+6. 感谢cn.lmmapper的作者和mybatis-plus的作者
+7. 如有未授权请及时与我练习
+
 # MyBatis 通用 Mapper5 来了🎉🎉🎉
 
-[![Maven central](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper/badge.svg)](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper)
+[![Maven central](https://maven-badges.herokuapp.com/maven-central/cn.lm.mybatis/mapper/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.lm.mybatis/mapper)
 
 通用Mapper都可以极大的方便开发人员。可以随意的按照自己的需要选择通用方法，还可以很方便的开发自己的通用方法。
 
@@ -16,7 +29,7 @@
 
 ```xml
 <dependency>
-    <groupId>tk.mybatis</groupId>
+    <groupId>cn.0moe</groupId>
     <artifactId>mapper</artifactId>
     <version>5.0.0</version>
 </dependency>

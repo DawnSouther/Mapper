@@ -27,15 +27,15 @@ spring:
       schema-locations: classpath:import.sql
 mybatis:
   config-location: mybatis-config.xml
-  base-packages: tk.mybatis.sample.mapper
+  base-packages: cn.lm.mybatis.sample.mapper
 
 logging:
   level:
     root: DEBUG
-    tk.mybatis.sample.mapper: TRACE
+    cn.lm.mybatis.sample.mapper: TRACE
 mapper:
   not-empty: true
   before: true
   mappers:
-    - tk.mybatis.sample.mapper.BaseMapper
-    - tk.mybatis.mapper.common.Mapper
+    - cn.lm.mybatis.sample.mapper.BaseMapper
+    - cn.lm.mybatis.mapper.common.Mapper

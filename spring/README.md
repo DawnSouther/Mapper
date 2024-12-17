@@ -1,6 +1,6 @@
 # Mybatis 通用 Mapper 和 Spring 集成
 
-[![Maven central](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper-spring/badge.svg)](https://maven-badges.herokuapp.com/maven-central/tk.mybatis/mapper-spring)
+[![Maven central](https://maven-badges.herokuapp.com/maven-central/cn.lm.mybatis/mapper-spring/badge.svg)](https://maven-badges.herokuapp.com/maven-central/cn.lm.mybatis/mapper-spring)
 
 ## 依赖
 
@@ -11,7 +11,7 @@
 ```xml
 <!-- 需要添加的依赖 -->
 <dependency>
-    <groupId>tk.mybatis</groupId>
+    <groupId>cn.0moe</groupId>
     <artifactId>mapper-spring</artifactId>
     <version>版本号</version>
 </dependency>
@@ -26,7 +26,7 @@
     <version>版本号</version>
 </dependency>
 <dependency>
-    <groupId>tk.mybatis</groupId>
+    <groupId>cn.0moe</groupId>
     <artifactId>mapper</artifactId>
     <version>版本号</version>
 </dependency>
@@ -61,7 +61,7 @@
 - `MapperScannerConfigurer` xml bean 配置
 - `@MapperScan` 注解
 
-除此之外，高版本的 MyBatis (3.4.0+) 和 mybatis-spring (1.3.0+) 中还有一种推荐的 `tk.mybatis.mapper.session.Configuration` 配置。
+除此之外，高版本的 MyBatis (3.4.0+) 和 mybatis-spring (1.3.0+) 中还有一种推荐的 `cn.lm.mybatis.mapper.session.Configuration` 配置。
 
 > 通用 Mapper 3.6.0 之后会自动注册带有 `@RegisterMapper` 注解的**基类**接口，不在强制要求配置 mappers 属性，只需要给你的基类加 `@RegisterMapper` 注解即可。
 
@@ -76,12 +76,13 @@
 ### 一、`MapperScannerConfigurer` xml bean 配置
 
 ```xml
-<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
-    <property name="basePackage" value="tk.mybatis.mapper.mapper"/>
+
+<bean class="cn.lm.mybatis.spring.mapper.MapperScannerConfigurer">
+    <property name="basePackage" value="cn.lm.mybatis.mapper.mapper"/>
     <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     <property name="properties">
         <value>
-            mappers=tk.mybatis.mapper.common.Mapper
+            mappers=cn.lm.mybatis.mapper.common.Mapper
         </value>
     </property>
 </bean>
@@ -89,7 +90,7 @@
 
 注意两点：
 
-1. 这里使用的 `tk.mybatis.spring.mapper.MapperScannerConfigurer`，不是官方的 `org.xxx`
+1. 这里使用的 `cn.lm.mybatis.spring.mapper.MapperScannerConfigurer`，不是官方的 `org.xxx`
 2. 所有对通用 Mapper 的配置，参考上面的 mappers=xxx，一行写一个配置即可
 
 ### 二、`@MapperScan` 注解
@@ -102,7 +103,7 @@
 
 ```java
 @Configuration
-@MapperScan(value = "tk.mybatis.mapper.mapper", mapperHelperRef = "mapperHelper")
+@MapperScan(value = "cn.lm.mybatis.mapper.mapper", mapperHelperRef = "mapperHelper")
 public static class MyBatisConfigRef {
     @Bean
     public DataSource dataSource() {
@@ -148,9 +149,9 @@ public static class MyBatisConfigRef {
 
 ```java
 @Configuration
-@MapperScan(value = "tk.mybatis.mapper.mapper",
+@MapperScan(value = "cn.lm.mybatis.mapper.mapper",
     properties = {
-            "mappers=tk.mybatis.mapper.common.Mapper",
+            "mappers=cn.lm.mybatis.mapper.common.Mapper",
             "notEmpty=true"
     }
 )
@@ -189,21 +190,21 @@ public static class MyBatisConfigProperties {
 ```yml
 mapper:
   mappers:
-    - tk.mybatis.mapper.common.Mapper
-    - tk.mybatis.mapper.common.Mapper2
+    - cn.lm.mybatis.mapper.common.Mapper
+    - cn.lm.mybatis.mapper.common.Mapper2
   not-empty: true
 ```
 
 在 propertie 配置中：
 
 ```properties
-mapper.mappers=tk.mybatis.mapper.common.Mapper,tk.mybatis.mapper.common.Mapper2
+mapper.mappers=cn.lm.mybatis.mapper.common.Mapper,cn.lm.mybatis.mapper.common.Mapper2
 mapper.not-empty=true
 ```
 
 > 特别提醒：Spring Boot 中支持 relax 方式的参数配置，但是前面两种方式都不支持，前两种配置参数的时候需要保证大小写一致！
 
-### 三、`tk.mybatis.mapper.session.Configuration` 配置
+### 三、`cn.lm.mybatis.mapper.session.Configuration` 配置
 
 **使用要求：MyBatis (3.4.0+) 和 mybatis-spring (1.3.0+)**
 
@@ -226,7 +227,7 @@ public void addMappedStatement(MappedStatement ms) {
 }
 ```
 
-`tk.mybatis.mapper.session.Configuration` 提供了 3 种配置通用 Mapper 的方式，如下所示：
+`cn.lm.mybatis.mapper.session.Configuration` 提供了 3 种配置通用 Mapper 的方式，如下所示：
 
 ```java
 /**
@@ -263,7 +264,7 @@ public void setConfig(Config config) {
 }
 ```
 
-使用 `tk.mybatis.mapper.session.Configuration` 有两种和 Spring 集成的配置方法
+使用 `cn.lm.mybatis.mapper.session.Configuration` 有两种和 Spring 集成的配置方法
 
 #### 1. Spring XML 配置
 
@@ -271,7 +272,7 @@ public void setConfig(Config config) {
 
 ```xml
 <!--使用 Configuration 方式进行配置-->
-<bean id="mybatisConfig" class="tk.mybatis.mapper.session.Configuration">
+<bean id="mybatisConfig" class="cn.lm.mybatis.mapper.session.Configuration">
     <!-- 配置通用 Mapper，有三种属性注入方式 -->
     <property name="mapperProperties">
         <value>
@@ -281,35 +282,37 @@ public void setConfig(Config config) {
 </bean>
 
 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-    <property name="dataSource" ref="dataSource"/>
-    <property name="configuration" ref="mybatisConfig"/>
+<property name="dataSource" ref="dataSource"/>
+<property name="configuration" ref="mybatisConfig"/>
 </bean>
 
 <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-    <property name="basePackage" value="tk.mybatis.mapper.configuration"/>
-    <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+<property name="basePackage" value="cn.lm.mybatis.mapper.configuration"/>
+<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
 </bean>
 ``` 
 
-> 特别注意：这种情况下的 MapperScannerConfigurer 是官方 mybatis-spring 中提供的类，不是 tk 开头的！
+> 特别注意：这种情况下的 MapperScannerConfigurer 是官方 mybatis-spring 中提供的类，不是 cn.lm 开头的！
 
 参考这里的配置即可，注意和其他方式的区别。
 
-这里直接配置一个 tk 中提供的 `Configuration`，然后注入到 `SqlSessionFactoryBean` 中。
+这里直接配置一个 cn.lm 中提供的 `Configuration`，然后注入到 `SqlSessionFactoryBean` 中。
 
 #### 2. 注解方式
 
 ```java
+import cn.lm.mybatis.mapper.session.Configuration;
+
 @Bean
 public SqlSessionFactory sqlSessionFactory() throws Exception {
     SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
     sessionFactory.setDataSource(dataSource());
     //创建 Configuration，设置通用 Mapper 配置
-    tk.mybatis.mapper.session.Configuration configuration = new tk.mybatis.mapper.session.Configuration();
+    Configuration configuration = new Configuration();
     //有 3 种配置方式
     configuration.setMapperHelper(new MapperHelper());
     sessionFactory.setConfiguration(configuration);
-    
+
     return sessionFactory.getObject();
 }
 ```
