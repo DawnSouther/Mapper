@@ -24,7 +24,7 @@
 
 package cn.lm.mybatis.mapper.mapper;
 
-import cn.lm.mybatis.mapper.common.Mapper;
+import cn.lm.mybatis.mapper.common.AllMapper;
 import cn.lm.mybatis.mapper.hsqldb.HsqldbMapper;
 import cn.lm.mybatis.mapper.model.Country;
 
@@ -32,6 +32,6 @@ import cn.lm.mybatis.mapper.model.Country;
  * Created by liuzh on 2014/11/19.
  */
 //@CacheNamespace
-public interface CachedCountryMapper extends Mapper<Country>, HsqldbMapper<Country> {
+public interface CachedCountryMapper extends AllMapper<Country>, HsqldbMapper<Country> {
     int selectCache(int id);
 }

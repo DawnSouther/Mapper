@@ -9,7 +9,8 @@
 5. UpdateByPrimaryKeySelectiveForce方法更名为updatePickById，且只更新传入的字段，其余字段均不更新
 6. 移除weekend、generator、solon-plugin模块
 6. 感谢cn.lmmapper的作者和mybatis-plus的作者
-7. 如有未授权请及时与我练习
+7. 为避免命名冲突`cn.lm.mybatis.mapper.common.Mapper`更改为`cn.lm.mybatis.mapper.common.AllMapper`
+7. 如有未授权请及时与我联系
 
 # MyBatis 通用 Mapper5 来了🎉🎉🎉
 

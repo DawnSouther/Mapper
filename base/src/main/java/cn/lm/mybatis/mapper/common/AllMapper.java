@@ -37,7 +37,7 @@ import cn.lm.mybatis.mapper.annotation.RegisterMapper;
  * @author liuzh
  */
 @RegisterMapper
-public interface Mapper<T> extends
+public interface AllMapper<T> extends
         BaseMapper<T>,
         ConditionMapper<T>,
         RowBoundsMapper<T>,

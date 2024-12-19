@@ -82,7 +82,7 @@
     <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
     <property name="properties">
         <value>
-            mappers=cn.lm.mybatis.mapper.common.Mapper
+            mappers=cn.lm.mybatis.mapper.common.AllMapper
         </value>
     </property>
 </bean>
@@ -151,7 +151,7 @@ public static class MyBatisConfigRef {
 @Configuration
 @MapperScan(value = "cn.lm.mybatis.mapper.mapper",
     properties = {
-            "mappers=cn.lm.mybatis.mapper.common.Mapper",
+            "mappers=cn.lm.mybatis.mapper.common.AllMapper",
             "notEmpty=true"
     }
 )
@@ -190,7 +190,7 @@ public static class MyBatisConfigProperties {
 ```yml
 mapper:
   mappers:
-    - cn.lm.mybatis.mapper.common.Mapper
+    - cn.lm.mybatis.mapper.common.AllMapper
     - cn.lm.mybatis.mapper.common.Mapper2
   not-empty: true
 ```
@@ -198,7 +198,7 @@ mapper:
 在 propertie 配置中：
 
 ```properties
-mapper.mappers=cn.lm.mybatis.mapper.common.Mapper,cn.lm.mybatis.mapper.common.Mapper2
+mapper.mappers=cn.lm.mybatis.mapper.common.AllMapper,cn.lm.mybatis.mapper.common.Mapper2
 mapper.not-empty=true
 ```
 

@@ -38,4 +38,4 @@ mapper:
   before: true
   mappers:
     - cn.lm.mybatis.sample.mapper.BaseMapper
-    - cn.lm.mybatis.mapper.common.Mapper
+    - cn.lm.mybatis.mapper.common.AllMapper

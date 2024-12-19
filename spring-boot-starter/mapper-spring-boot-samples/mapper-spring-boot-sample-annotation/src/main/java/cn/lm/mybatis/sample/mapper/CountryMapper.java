@@ -24,10 +24,11 @@
 
 package cn.lm.mybatis.sample.mapper;
 
+import cn.lm.mybatis.mapper.common.AllMapper;
 import cn.lm.mybatis.sample.domain.Country;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface CountryMapper extends cn.lm.mybatis.mapper.common.Mapper<Country> {
+public interface CountryMapper extends AllMapper<Country> {
 
 }

@@ -100,7 +100,7 @@ public class InsertGenIdTest extends BaseTest {
             country.setId(9999L);
             Assert.assertEquals(1, mapper.insert(country));
             Assert.assertNotNull(country.getId());
-            Assert.assertEquals(new Long(9999), country.getId());
+            Assert.assertEquals(Long.valueOf(9999), country.getId());
             System.out.println(country.getId());
         } finally {
             sqlSession.close();

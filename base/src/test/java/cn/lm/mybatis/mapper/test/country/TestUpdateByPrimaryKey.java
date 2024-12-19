@@ -123,27 +123,27 @@ public class TestUpdateByPrimaryKey {
             CountryVersionMapper mapper = sqlSession.getMapper(CountryVersionMapper.class);
             CountryVersion country = mapper.selectById(174);
             Assert.assertNotNull(country);
-            Assert.assertEquals(new Integer(1), country.getVersion());
+            Assert.assertEquals(Integer.valueOf(1), country.getVersion());
             country.setCountryname("美国2");
             Assert.assertEquals(1, mapper.updateById(country));
 
             country = mapper.selectById(174);
             Assert.assertNotNull(country);
-            Assert.assertEquals(new Integer(2), country.getVersion());
+            Assert.assertEquals(Integer.valueOf(2), country.getVersion());
 
             country.setCountryname("美国3");
             Assert.assertEquals(1, mapper.updateById(country));
 
             country = mapper.selectById(174);
             Assert.assertNotNull(country);
-            Assert.assertEquals(new Integer(3), country.getVersion());
+            Assert.assertEquals(Integer.valueOf(3), country.getVersion());
 
             country.setCountryname("美国4");
             Assert.assertEquals(1, mapper.updateById(country));
 
             country = mapper.selectById(174);
             Assert.assertNotNull(country);
-            Assert.assertEquals(new Integer(4), country.getVersion());
+            Assert.assertEquals(Integer.valueOf(4), country.getVersion());
         } finally {
             sqlSession.close();
         }

@@ -1,10 +1,10 @@
 package cn.lm.mybatis.mapper.typehandler;
 
-import cn.lm.mybatis.mapper.common.Mapper;
+import cn.lm.mybatis.mapper.common.AllMapper;
 
 /**
  * @author liuzh
  */
-public interface User2Mapper extends Mapper<User2> {
+public interface User2Mapper extends AllMapper<User2> {
 
 }

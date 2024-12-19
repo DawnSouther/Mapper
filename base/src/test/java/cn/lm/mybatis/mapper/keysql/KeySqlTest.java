@@ -88,7 +88,7 @@ public class KeySqlTest extends BaseTest {
             UserSqlBefore user = new UserSqlBefore();
             user.setName("liuzh");
             Assert.assertEquals(1, mapper.insert(user));
-            Assert.assertEquals(new Integer(12345), user.getId());
+            Assert.assertEquals(Integer.valueOf(12345), user.getId());
 
             user = mapper.selectById(12345);
             Assert.assertEquals("liuzh", user.getName());

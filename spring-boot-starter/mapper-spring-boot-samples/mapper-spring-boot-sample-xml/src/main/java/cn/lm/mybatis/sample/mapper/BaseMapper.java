@@ -25,13 +25,13 @@
 package cn.lm.mybatis.sample.mapper;
 
 import cn.lm.mybatis.mapper.annotation.RegisterMapper;
-import cn.lm.mybatis.mapper.common.Mapper;
+import cn.lm.mybatis.mapper.common.AllMapper;
 
 /**
  * @author liuzh
  * @since 2017/1/2.
  */
 @RegisterMapper
-public interface BaseMapper<T> extends Mapper<T> {
+public interface BaseMapper<T> extends AllMapper<T> {
 
 }

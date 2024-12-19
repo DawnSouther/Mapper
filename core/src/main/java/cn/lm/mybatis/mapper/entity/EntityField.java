@@ -29,6 +29,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * 封装字段和方法，统一调用某些方法
@@ -128,7 +129,7 @@ public class EntityField {
         if (getter != null) {
             result = getter.invoke(object);
         } else if (field != null) {
-            if (!field.isAccessible()) {
+            if (!field.canAccess(object)) {
                 field.setAccessible(true);
             }
             result = field.get(object);
@@ -143,7 +144,7 @@ public class EntityField {
 
         EntityField that = (EntityField) o;
 
-        return !(name != null ? !name.equals(that.name) : that.name != null);
+        return Objects.equals(name, that.name);
 
     }
 

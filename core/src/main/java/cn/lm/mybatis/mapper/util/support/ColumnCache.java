@@ -16,6 +16,7 @@
 package cn.lm.mybatis.mapper.util.support;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author miemie
@@ -80,14 +81,14 @@ public class ColumnCache implements Serializable {
         if (!other.canEqual((Object) this)) return false;
         final Object this$column = this.getColumn();
         final Object other$column = other.getColumn();
-        if (this$column == null ? other$column != null : !this$column.equals(other$column)) return false;
+        if (!Objects.equals(this$column, other$column)) return false;
         final Object this$columnSelect = this.getColumnSelect();
         final Object other$columnSelect = other.getColumnSelect();
-        if (this$columnSelect == null ? other$columnSelect != null : !this$columnSelect.equals(other$columnSelect))
+        if (!Objects.equals(this$columnSelect, other$columnSelect))
             return false;
         final Object this$mapping = this.getMapping();
         final Object other$mapping = other.getMapping();
-        if (this$mapping == null ? other$mapping != null : !this$mapping.equals(other$mapping)) return false;
+        if (!Objects.equals(this$mapping, other$mapping)) return false;
         return true;
     }
 

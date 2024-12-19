@@ -55,7 +55,7 @@ public class VersionUtil {
                 LOCK.lock();
                 try {
                     if (!CACHE.containsKey(nextVersionClass)) {
-                        CACHE.put(nextVersionClass, nextVersionClass.newInstance());
+                        CACHE.put(nextVersionClass, nextVersionClass.getDeclaredConstructor().newInstance());
                     }
                     nextVersion = CACHE.get(nextVersionClass);
                 } finally {

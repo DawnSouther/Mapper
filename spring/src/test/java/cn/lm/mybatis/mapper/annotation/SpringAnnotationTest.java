@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import cn.lm.mybatis.mapper.common.Mapper;
+import cn.lm.mybatis.mapper.common.AllMapper;
 import cn.lm.mybatis.mapper.entity.Config;
 import cn.lm.mybatis.mapper.mapperhelper.MapperHelper;
 import cn.lm.mybatis.spring.annotation.MapperScan;
@@ -105,7 +105,7 @@ public class SpringAnnotationTest {
         public MapperHelper mapperHelper() {
             Config config = new Config();
             List<Class> mappers = new ArrayList<Class>();
-            mappers.add(Mapper.class);
+            mappers.add(AllMapper.class);
             config.setMappers(mappers);
 
             MapperHelper mapperHelper = new MapperHelper();
@@ -117,7 +117,7 @@ public class SpringAnnotationTest {
     @Configuration
     @MapperScan(value = "cn.lm.mybatis.mapper.annotation",
             properties = {
-                    "mappers=cn.lm.mybatis.mapper.common.Mapper",
+                    "mappers=cn.lm.mybatis.mapper.common.AllMapper",
                     "notEmpty=true"
             }
     )
@@ -146,7 +146,7 @@ public class SpringAnnotationTest {
     @MapperScan(value = "cn.lm.mybatis.mapper.annotation",
             properties = {
                     //参数配置错误
-                    "mapperscn.lm.mybatis.mapper.common.Mapper",
+                    "mapperscn.lm.mybatis.mapper.common.AllMapper",
                     "notEmpty=true"
             }
     )

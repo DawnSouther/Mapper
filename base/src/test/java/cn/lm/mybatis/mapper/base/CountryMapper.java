@@ -1,7 +1,7 @@
 package cn.lm.mybatis.mapper.base;
 
-import cn.lm.mybatis.mapper.common.Mapper;
+import cn.lm.mybatis.mapper.common.AllMapper;
 
-public interface CountryMapper extends Mapper<Country> {
+public interface CountryMapper extends AllMapper<Country> {
 
 }

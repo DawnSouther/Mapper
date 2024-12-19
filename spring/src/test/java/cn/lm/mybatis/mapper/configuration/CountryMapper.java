@@ -24,9 +24,9 @@
 
 package cn.lm.mybatis.mapper.configuration;
 
+import cn.lm.mybatis.mapper.common.AllMapper;
 import org.apache.ibatis.annotations.CacheNamespace;
-import cn.lm.mybatis.mapper.common.Mapper;
 
 @CacheNamespace
-public interface CountryMapper extends Mapper<Country> {
+public interface CountryMapper extends AllMapper<Country> {
 }

@@ -113,10 +113,10 @@ mapper.propertyName=propertyValue
 
 ```properties
 mapper.mappers[0]=cn.lm.mybatis.sample.mapper.BaseMapper
-mapper.mappers[1]=cn.lm.mybatis.mapper.common.Mapper
+mapper.mappers[1]=cn.lm.mybatis.mapper.common.AllMapper
 ```
 
-默认情况下，没有 mappers 配置时，会自动注册 `cn.lm.mybatis.mapper.common.Mapper`
+默认情况下，没有 mappers 配置时，会自动注册 `cn.lm.mybatis.mapper.common.AllMapper`
 
 因为通用 Mapper 是固定的属性，所以接收参数使用的对象，按照 Spring Boot 配置规则，大写字母都变了带横线的小写字母。针对如 IDENTITY（对应i-d-e-n-t-i-t-y）提供了全小写的 identity 配置，如果
 IDE 能自动提示，看自动提示即可。

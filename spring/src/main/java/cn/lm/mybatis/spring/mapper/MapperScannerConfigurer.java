@@ -602,7 +602,7 @@ public class MapperScannerConfigurer
                 throw new MapperException("通过 @MapperScan 注解的 properties 参数配置出错:" + property + " !\n"
                         + "请保证配置项按 properties 文件格式要求进行配置，例如：\n"
                         + "properties = {\n"
-                        + "\t\"mappers=cn.lm.mybatis.mapper.common.Mapper\",\n"
+                        + "\t\"mappers=cn.lm.mybatis.mapper.common.AllMapper\",\n"
                         + "\t\"notEmpty=true\"\n"
                         + "}"
                 );

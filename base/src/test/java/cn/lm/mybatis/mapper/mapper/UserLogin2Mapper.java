@@ -24,11 +24,11 @@
 
 package cn.lm.mybatis.mapper.mapper;
 
-import cn.lm.mybatis.mapper.common.Mapper;
+import cn.lm.mybatis.mapper.common.AllMapper;
 import cn.lm.mybatis.mapper.model.UserLogin2;
 
 /**
  * Created by liuzh on 2014/11/19.
  */
-public interface UserLogin2Mapper extends Mapper<UserLogin2> {
+public interface UserLogin2Mapper extends AllMapper<UserLogin2> {
 }

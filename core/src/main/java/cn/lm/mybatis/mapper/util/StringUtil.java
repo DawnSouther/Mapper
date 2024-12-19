@@ -112,21 +112,14 @@ public class StringUtil {
      * @return
      */
     public static String convertByStyle(String str, Style style) {
-        switch (style) {
-            case camelhump:
-                return camelhumpToUnderline(str);
-            case uppercase:
-                return str.toUpperCase();
-            case lowercase:
-                return str.toLowerCase();
-            case camelhumpAndLowercase:
-                return camelhumpToUnderline(str).toLowerCase();
-            case camelhumpAndUppercase:
-                return camelhumpToUnderline(str).toUpperCase();
-            case normal:
-            default:
-                return str;
-        }
+        return switch (style) {
+            case camelhump -> camelhumpToUnderline(str);
+            case uppercase -> str.toUpperCase();
+            case lowercase -> str.toLowerCase();
+            case camelhumpAndLowercase -> camelhumpToUnderline(str).toLowerCase();
+            case camelhumpAndUppercase -> camelhumpToUnderline(str).toUpperCase();
+            default -> str;
+        };
     }
 
     /**

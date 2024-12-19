@@ -62,7 +62,7 @@ public class AggregationMapperTest extends BaseTest {
             Condition example = new Condition(User.class);
             List<User> m = mapper.selectAggregationByExample(example, aggregateCondition);
             Assert.assertEquals(1, m.size());
-            Assert.assertEquals(new Long(3), m.get(0).getId());
+            Assert.assertEquals(Long.valueOf(3), m.get(0).getId());
         } finally {
             sqlSession.close();
         }
@@ -78,7 +78,7 @@ public class AggregationMapperTest extends BaseTest {
             Condition example = new Condition(User.class);
             List<User> m = mapper.selectAggregationByExample(example, aggregateCondition);
             Assert.assertEquals(1, m.size());
-            Assert.assertEquals(new Long(21), m.get(0).getAggregation());
+            Assert.assertEquals(Long.valueOf(21), m.get(0).getAggregation());
         } finally {
             sqlSession.close();
         }
@@ -95,8 +95,8 @@ public class AggregationMapperTest extends BaseTest {
             example.setOrderByClause("role desc");
             List<User> m = mapper.selectAggregationByExample(example, aggregateCondition);
             Assert.assertEquals(2, m.size());
-            Assert.assertEquals(new Long(6), m.get(0).getAggregation());
-            Assert.assertEquals(new Long(3), m.get(1).getAggregation());
+            Assert.assertEquals(Long.valueOf(6), m.get(0).getAggregation());
+            Assert.assertEquals(Long.valueOf(3), m.get(1).getAggregation());
         } finally {
             sqlSession.close();
         }
@@ -112,7 +112,7 @@ public class AggregationMapperTest extends BaseTest {
             Condition example = new Condition(User.class);
             List<User> m = mapper.selectAggregationByExample(example, aggregateCondition);
             Assert.assertEquals(1, m.size());
-            Assert.assertEquals(new Long(1), m.get(0).getAggregation());
+            Assert.assertEquals(Long.valueOf(1), m.get(0).getAggregation());
         } finally {
             sqlSession.close();
         }

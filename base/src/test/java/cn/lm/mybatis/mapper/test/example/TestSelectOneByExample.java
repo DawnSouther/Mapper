@@ -61,7 +61,7 @@ public class TestSelectOneByExample {
             example.createCriteria().andGreaterThan("id", 100).andLessThan("id", 102);
             Country country = mapper.selectOneByCondition(example);
             Assert.assertNotNull(country);
-            Assert.assertEquals(new Integer(101), country.getId());
+            Assert.assertEquals(Integer.valueOf(101), country.getId());
         } finally {
             sqlSession.close();
         }

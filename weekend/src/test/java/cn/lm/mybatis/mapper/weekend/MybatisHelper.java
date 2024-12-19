@@ -25,13 +25,13 @@
 
 package cn.lm.mybatis.mapper.weekend;
 
+import cn.lm.mybatis.mapper.common.AllMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import cn.lm.mybatis.mapper.common.IdsMapper;
-import cn.lm.mybatis.mapper.common.Mapper;
 import cn.lm.mybatis.mapper.common.MySqlMapper;
 import cn.lm.mybatis.mapper.common.SqlServerMapper;
 import cn.lm.mybatis.mapper.entity.Config;
@@ -90,7 +90,7 @@ public class MybatisHelper {
                 //设置配置
                 mapperHelper.setConfig(config);
                 // 注册通用Mapper接口 - 可以自动注册继承的接口
-                mapperHelper.registerMapper(Mapper.class);
+                mapperHelper.registerMapper(AllMapper.class);
                 mapperHelper.registerMapper(MySqlMapper.class);
                 mapperHelper.registerMapper(SqlServerMapper.class);
                 mapperHelper.registerMapper(IdsMapper.class);

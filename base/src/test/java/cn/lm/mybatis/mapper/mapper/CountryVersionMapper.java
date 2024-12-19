@@ -24,11 +24,11 @@
 
 package cn.lm.mybatis.mapper.mapper;
 
-import cn.lm.mybatis.mapper.common.Mapper;
+import cn.lm.mybatis.mapper.common.AllMapper;
 import cn.lm.mybatis.mapper.model.CountryVersion;
 
 /**
  * Created by liuzh on 2014/11/19.
  */
-public interface CountryVersionMapper extends Mapper<CountryVersion> {
+public interface CountryVersionMapper extends AllMapper<CountryVersion> {
 }

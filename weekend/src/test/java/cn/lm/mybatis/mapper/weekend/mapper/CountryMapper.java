@@ -25,11 +25,11 @@
 
 package cn.lm.mybatis.mapper.weekend.mapper;
 
-import cn.lm.mybatis.mapper.common.Mapper;
+import cn.lm.mybatis.mapper.common.AllMapper;
 import cn.lm.mybatis.mapper.weekend.entity.Country;
 
 /**
  * @author liuzh
  */
-public interface CountryMapper extends Mapper<Country> {
+public interface CountryMapper extends AllMapper<Country> {
 }

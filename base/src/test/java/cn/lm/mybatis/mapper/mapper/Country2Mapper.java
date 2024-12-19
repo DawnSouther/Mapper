@@ -24,11 +24,11 @@
 
 package cn.lm.mybatis.mapper.mapper;
 
-import cn.lm.mybatis.mapper.common.Mapper;
+import cn.lm.mybatis.mapper.common.AllMapper;
 import cn.lm.mybatis.mapper.model.Country2;
 
 /**
  * Created by liuzh on 2014/11/19.
  */
-public interface Country2Mapper extends Mapper<Country2> {
+public interface Country2Mapper extends AllMapper<Country2> {
 }

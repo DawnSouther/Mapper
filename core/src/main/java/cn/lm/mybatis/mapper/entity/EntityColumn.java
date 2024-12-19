@@ -24,6 +24,8 @@
 
 package cn.lm.mybatis.mapper.entity;
 
+import java.util.Objects;
+
 import org.apache.ibatis.type.JdbcType;
 import cn.lm.mybatis.mapper.code.ORDER;
 import cn.lm.mybatis.mapper.genid.GenId;
@@ -163,14 +165,14 @@ public class EntityColumn {
 
         if (id != that.id) return false;
         if (identity != that.identity) return false;
-        if (table != null ? !table.equals(that.table) : that.table != null) return false;
-        if (property != null ? !property.equals(that.property) : that.property != null) return false;
-        if (column != null ? !column.equals(that.column) : that.column != null) return false;
-        if (javaType != null ? !javaType.equals(that.javaType) : that.javaType != null) return false;
+        if (!Objects.equals(table, that.table)) return false;
+        if (!Objects.equals(property, that.property)) return false;
+        if (!Objects.equals(column, that.column)) return false;
+        if (!Objects.equals(javaType, that.javaType)) return false;
         if (jdbcType != that.jdbcType) return false;
-        if (typeHandler != null ? !typeHandler.equals(that.typeHandler) : that.typeHandler != null) return false;
-        if (generator != null ? !generator.equals(that.generator) : that.generator != null) return false;
-        return !(orderBy != null ? !orderBy.equals(that.orderBy) : that.orderBy != null);
+        if (!Objects.equals(typeHandler, that.typeHandler)) return false;
+        if (!Objects.equals(generator, that.generator)) return false;
+        return Objects.equals(orderBy, that.orderBy);
 
     }
 
