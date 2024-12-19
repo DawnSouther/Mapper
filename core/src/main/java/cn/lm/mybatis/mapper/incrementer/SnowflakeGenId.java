@@ -44,7 +44,11 @@ public class SnowflakeGenId implements GenId<Long> {
 
     private final Sequence sequence;
 
-    private SnowflakeGenId(InetAddress inetAddress){
+    public SnowflakeGenId(){
+        sequence = null;
+    }
+
+    public SnowflakeGenId(InetAddress inetAddress){
         sequence = new Sequence(inetAddress);
     }
 

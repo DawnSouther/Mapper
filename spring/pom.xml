@@ -37,15 +37,11 @@
     <description>Mybatis 通用 Mapper 和 Spring 集成</description>
 
     <properties>
-        <spring.version>6.1.11</spring.version>
+        <spring.version>6.1.14</spring.version>
         <mybatis-spring.version>3.0.4</mybatis-spring.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
